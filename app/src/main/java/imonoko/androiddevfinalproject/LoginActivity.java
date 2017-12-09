@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    String EmailEdt;
+
 
 
     @Override
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
+                //Displays data from saved state
         if(savedInstanceState!=null){
             mPasswordView.setText(savedInstanceState.getString("pass"));
             mEmailView.setText(savedInstanceState.getString("email"));
@@ -176,6 +176,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
+
+
+    /*once screen is rotated the data is sent to onSaveInstanceState where the data is stored
+    * and then displayed once rotated*/
 
     @Override
     protected void onSaveInstanceState (Bundle outState) {
