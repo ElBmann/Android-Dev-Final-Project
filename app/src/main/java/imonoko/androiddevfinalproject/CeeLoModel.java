@@ -87,8 +87,8 @@ public class CeeLoModel
 
 
 
-/*0 == Nothing, 1 == Win, And 2 == Loss*/
-//TODO: Needs a comparsion to see who rolled frist in case of a draw
+                /*0 == Nothing, 1 == Win, And 2 == Loss*/
+//TODO: Needs a comparsion to see who rolled first in case of a draw
     public int WinRoundChecker(){//.................................................................Checks if player won the Round
         if(oneOfAKind()== true){
             if(rolls[0]==1 && rolls[1]==2 && rolls[3]==3){//........................................Checks for combo 123 is automatic loss

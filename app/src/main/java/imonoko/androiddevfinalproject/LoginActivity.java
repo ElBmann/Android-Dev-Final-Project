@@ -1,4 +1,5 @@
 package imonoko.androiddevfinalproject;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -7,6 +8,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    String EmailEdt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
+
+
+
+
         //SignInButton
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -108,6 +117,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        if(savedInstanceState!=null){
+            mPasswordView.setText(savedInstanceState.getString("pass"));
+            mEmailView.setText(savedInstanceState.getString("email"));
+        }
+
     }
     public int getloginID()
     {
@@ -160,6 +176,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("pass",mPasswordView.getText().toString());
+        outState.putString("email",mEmailView.getText().toString());
+
+    }
+
+
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -381,5 +408,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        modifyLayout(newConfig);
+        if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
+            modifyLayout(newConfig);
+        }else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+            modifyLayout(newConfig);
+        }else{
+            Log.w("MA","Undetermined Postion");
+        }
+
+    }
+    private void modifyLayout(Configuration newConfig) {
+
+        if(newConfig.orientation== Configuration.ORIENTATION_LANDSCAPE) {
+
+            setContentView(R.layout.activity_login_landscape);
+
+        } else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+            setContentView(R.layout.activity_login);
+            }
+
     }
 }
