@@ -6,16 +6,21 @@ package imonoko.androiddevfinalproject;
 
 public class Account
 {
+    private int id;
     private String userName;
     private String email;
     private String password;
 
-    Account(String uN, String eM, String pW)
+    Account(int id, String uN, String eM, String pW)
     {
+        this.id=id;
         setUserName(uN) ;
         setEmail(eM);
         setPassword(pW);
     }
+
+    public int getID()
+    {return id;}
 
     public String getUserName()
     {

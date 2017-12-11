@@ -68,7 +68,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.close( );
     }
     public void addStatistics(){
-        Statistics stats = new Statistics();
+        Statistics stats = new Statistics(0,0,0,0,0,0);
         SQLiteDatabase db = this.getWritableDatabase( );
         String sqlInsert = "insert into " + TABLE_STATISTICS;
         sqlInsert += " values( null, '" + stats.getWins( ) + "', '";
@@ -77,26 +77,61 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL( sqlInsert ); // inserts wins, losses, re-rolls, scores,and draws
         db.close( );
     }
-    public void modifyAccount( int id, Account acc) {
+    public void modifyAccount(Account acc) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlUpdate = "update " + TABLE_ACCOUNTS;
         sqlUpdate += " set " + USER_NAME + " = '" + acc.getUserName()+ "', ";
-        sqlUpdate += " set " + USER_PASSWORD + " = '" + acc.getPassword() + "', ";
-        sqlUpdate += " set " + USER_EMAIL + " = '" + acc.getEmail() + "'";
-        sqlUpdate += " where " + USER_ID + " = " + id;
+        sqlUpdate += USER_PASSWORD + " = '" + acc.getPassword() + "', ";
+        sqlUpdate += USER_EMAIL + " = '" + acc.getEmail() + "'";
+        sqlUpdate += " where " + USER_ID + " = " + acc.getID();
 
         db.execSQL(sqlUpdate); // updates username, email, password
         db.close();
     }
-    public void updateScores(int id,Statistics stats)
+    public void updateScores(Statistics stats)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlUpdate = "update " + TABLE_STATISTICS;
         sqlUpdate += " set " + WINS + " = '" + stats.getWins() + "'";
-        sqlUpdate += " set " + LOSSES + " = '" + stats.getLosses() + "'";
-        sqlUpdate += " where " + USER_ID + " = " + id;
+        sqlUpdate += ", " + LOSSES + " = '" + stats.getLosses() + "'";
+        sqlUpdate += " where " + USER_ID + " = " + stats.getID();
         db.execSQL(sqlUpdate); // updates Stats attributes
         db.close();
+    }
+    public int getIDfromEmail(String mail)
+    {
+        SQLiteDatabase db = this.getWritableDatabase( );
+
+        try
+        {
+            String sqlSearch = "SELECT * FROM " + TABLE_ACCOUNTS;
+            sqlSearch += " WHERE User_Email = '" + mail + "'";
+            Cursor cursor = db.rawQuery( sqlSearch, null );
+            ArrayList<Account> accountList = new ArrayList<Account>( );
+            while( cursor.moveToNext( ) )
+            {
+                Account currentAccount = new Account(cursor.getInt(0),cursor.getString( 1 ),
+                        cursor.getString( 2), cursor.getString( 3 ));
+                accountList.add( currentAccount );
+            }
+
+            if(accountList.size()> 0){
+                return accountList.get(0).getID();
+            }else{
+                return -1;
+            }
+        }
+
+        catch(SQLException sqlx) // search was unsuccessful
+        {
+            sqlx.printStackTrace();
+            return -1;
+        }
+
+        finally
+        {
+            db.close( );
+        }
     }
     public boolean searchForEmail(String mail )
     {
@@ -114,7 +149,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ArrayList<Account> accountList = new ArrayList<Account>( );
             while( cursor.moveToNext( ) )
             {
-                Account currentAccount = new Account(cursor.getString( 0 ), cursor.getString( 1 ), cursor.getString( 2 ));
+                Account currentAccount = new Account(cursor.getInt(0),cursor.getString( 1 ),
+                        cursor.getString( 2), cursor.getString( 3 ));
                 accountList.add( currentAccount );
             }
 
@@ -136,8 +172,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
             db.close( );
         }
     }
-
-
     public boolean searchForPassWord(String pw )
     {
         SQLiteDatabase db = this.getWritableDatabase( );
@@ -154,7 +188,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ArrayList<Account> accountList = new ArrayList<Account>( );
             while( cursor.moveToNext( ) )
             {
-                Account currentAccount = new Account(cursor.getString( 0 ), cursor.getString( 1 ), cursor.getString( 2 ));
+                Account currentAccount = new Account(cursor.getInt( 0 ), cursor.getString( 1 ), cursor.getString( 2 ),cursor.getString(3));
                 accountList.add( currentAccount );
             }
 
@@ -176,7 +210,44 @@ public class DatabaseManager extends SQLiteOpenHelper {
             db.close( );
         }
     }
+    public Account searchForAccountbyID(int ID)
+    {
+        SQLiteDatabase db = this.getWritableDatabase( );
 
+        try // should return true if the email address is already used
+        {
+
+            String sqlSearch = "SELECT * FROM " + TABLE_ACCOUNTS;
+            sqlSearch += " WHERE USER_ID = '" + ID + "'";
+
+            Cursor cursor = db.rawQuery( sqlSearch, null );
+
+            ArrayList<Account> accountList = new ArrayList<Account>( );
+            while( cursor.moveToNext( ) )
+            {
+                Account currentAccount = new Account(cursor.getInt( 0 ), cursor.getString( 1 ),
+                        cursor.getString( 2 ),cursor.getString(3));
+                accountList.add( currentAccount );
+            }
+
+            if(accountList.size()> 0){
+                return accountList.get(0);
+            }else{
+                return null;
+            }
+        }
+
+        catch(SQLException sqlx) // search was unsuccessful
+        {
+            sqlx.printStackTrace();
+            return null;
+        }
+
+        finally
+        {
+            db.close( );
+        }
+    }
     public Statistics searchForStat(int id)
     {
         ArrayList<Statistics>stat = selectAllStats();
@@ -213,7 +284,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<Statistics> accountList = new ArrayList<Statistics>( );
         while( cursor.moveToNext( ) )
         {
-            Statistics currentStats = new Statistics();
+            Statistics currentStats = new Statistics(cursor.getInt( 0 ),cursor.getInt( 1 ),
+                    cursor.getInt( 2 ),cursor.getInt( 3 ),cursor.getInt( 4 ),cursor.getInt( 5 ));
             accountList.add( currentStats );
         }
         db.close( );
@@ -228,28 +300,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<Account> accountList = new ArrayList<Account>( );
         while( cursor.moveToNext( ) )
         {
-            Account currentAccount = new Account(cursor.getString( 0 ), cursor.getString( 1 ), cursor.getString( 2 ));
+            Account currentAccount = new Account(cursor.getInt(0),cursor.getString( 1 ),
+                    cursor.getString( 2), cursor.getString( 3 ));
             accountList.add( currentAccount );
         }
         db.close( );
         return accountList;
     }
-   /* public ArrayList<Statistics> selectAll(int select) // returns all accounts in database
-            //Uses an integer value to select either table using '1' or '0'
-    {
-        String sqlQuery="";
-        if(select == 0){sqlQuery = "select * from " + TABLE_STATISTICS;}
-        else if(select == 1){sqlQuery = "select * from " + TABLE_ACCOUNTS;}
-        else{sqlQuery="ERROR";}
-        SQLiteDatabase db = this.getWritableDatabase( );
-        Cursor cursor = db.rawQuery( sqlQuery, null );
-        ArrayList<Object> accountList = new ArrayList<Object>( );
-        while( cursor.moveToNext( ) )
-        {
-            Statistics currentStats = new Statistics(cursor.getInt( 0 ));
-            accountList.add( currentStats );
-        }
-        db.close( );
-        return accountList;
-    }        */
+
 }

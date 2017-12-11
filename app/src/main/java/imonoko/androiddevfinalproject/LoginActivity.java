@@ -242,6 +242,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //TODO: Replace this with your own logic
         //Issue with Login comparing to database
         if(dbManger.searchForEmail(email)) {
+            loginID=dbManger.getIDfromEmail(email);
             Toast.makeText(this, "Login with id "+getloginID(), Toast.LENGTH_SHORT).show();
 
             return true;

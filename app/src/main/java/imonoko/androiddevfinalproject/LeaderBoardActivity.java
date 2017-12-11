@@ -26,7 +26,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
     }
     public void StatsPage( ) {
         ArrayList<Statistics> stats = DBM.selectAllStats();
-
+        ArrayList<Account> Acclist = DBM.selectAllAcc();
         LinearLayout LR = new LinearLayout(this);
 
         if( stats.size( ) > 0 ) {
@@ -64,7 +64,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 }
                 else//add stats from database onto the page
                 {
-                    accountStats[i][0].setText("" + stat.getID());
+                    accountStats[i][0].setText(""+Acclist.get(i).getUserName());
                     //stat.getID() is a placeholder until we get actual ids
                     accountStats[i][1].setText("" + stat.getScore());
                     accountStats[i][2].setText("" + stat.getWins());

@@ -6,7 +6,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class StatisticsActivity extends AppCompatActivity {
-
+    private LoginActivity LA = new LoginActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +15,7 @@ public class StatisticsActivity extends AppCompatActivity {
         TextView ViewPlayerStat= new TextView(this);
         ViewPlayerStat.setTextSize(40f);
         Statistics CurrentStat;
-        CurrentStat=DBM.searchForStat(0);
+        CurrentStat=DBM.searchForStat(LA.getloginID());
         if(CurrentStat==null)
         {
             ViewPlayerStat.setText("No Stats on file");

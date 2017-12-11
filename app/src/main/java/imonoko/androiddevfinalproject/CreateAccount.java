@@ -1,6 +1,5 @@
 package imonoko.androiddevfinalproject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 public class CreateAccount extends AppCompatActivity {
 
     private DatabaseManager dbManager; // used for the addAccount sql operation
-    private CreateAccountView caView; // layout for create account activity
+    private ModifyAccountView caView; // layout for create account activity
 
     private EditText userNameBox;
     private EditText emailBox;
@@ -27,7 +26,7 @@ public class CreateAccount extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ButtonHandler bh = new ButtonHandler();
-        caView = new CreateAccountView(this, bh);
+        caView = new ModifyAccountView(this, bh);
         super.onCreate(savedInstanceState);
         dbManager = new DatabaseManager(this);
         setContentView(caView);
@@ -50,15 +49,15 @@ public class CreateAccount extends AppCompatActivity {
         name = userNameBox.getText().toString();
         email = emailBox.getText().toString();
         pw = pwBox.getText().toString();
-        Account acc = new Account(name, email, pw); // creates an account
-        if(checkCredentials(acc)==true) {
+        Account acc = new Account(0,name, email, pw); // creates an account
+        if(checkInput(acc)==true) {
             dbManager.addAccount(acc); // inserts the account into the database
             Toast.makeText(this, "The account has been successfully created", Toast.LENGTH_SHORT).show();
             this.finish();
         }
     }
 
-    public Boolean checkCredentials(Account acc) {//rename
+    public Boolean checkInput(Account acc) {//rename
         try {
             // Retrieve the name and date of the task
 

@@ -12,11 +12,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
- * Created by Nazim Mia on 12/2/2017.
+ * Created by ImonokoI Stolen from Nazim on 12/11/2017.
  */
 
-public class CreateAccountView extends LinearLayout
-{
+public class ModifyAccountView  extends LinearLayout{
     // TextViews to serve as labels
     private TextView userNamePrompt;
     private TextView emailPrompt;
@@ -28,7 +27,7 @@ public class CreateAccountView extends LinearLayout
     private EditText passwordEntry;
 
     // Button to add account to database
-    private Button createAccount;
+    private Button modifyAccount;
 
     // TableLayout and TableRows to format the create account form
     private TableLayout table;
@@ -36,7 +35,7 @@ public class CreateAccountView extends LinearLayout
     private TableRow emailRow;
     private TableRow passwordRow;
 
-    public CreateAccountView(Context context, OnClickListener listener)
+    public ModifyAccountView(Context context, OnClickListener listener)
     {
         super(context);
         this.setOrientation(LinearLayout.VERTICAL);
@@ -87,7 +86,7 @@ public class CreateAccountView extends LinearLayout
         userNameEntry = new EditText(context);
         userNameEntry.setMaxLines(1);
         userNameEntry.setText("");
-        userNameEntry.setHint("enter your username");
+        userNameEntry.setHint("enter new username");
         userNameEntry.setGravity(Gravity.CENTER);
         userNameEntry.setBackgroundColor(Color.parseColor("#CCCCCC"));// light gray
         userNameEntry.setHintTextColor(Color.parseColor("#444444")); // dark gray
@@ -113,7 +112,7 @@ public class CreateAccountView extends LinearLayout
         emailEntry.setMaxLines(1);
         emailEntry.setText("");
         emailEntry.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS); // email input
-        emailEntry.setHint("enter your email address");
+        emailEntry.setHint("enter new email address");
         emailEntry.setGravity(Gravity.CENTER);
         emailEntry.setBackgroundColor(Color.parseColor("#CCCCCC"));
         emailEntry.setHintTextColor(Color.parseColor("#444444"));
@@ -139,7 +138,7 @@ public class CreateAccountView extends LinearLayout
         passwordEntry.setMaxLines(1);
         passwordEntry.setText("");
         passwordEntry.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD); // password input
-        passwordEntry.setHint("enter your password");
+        passwordEntry.setHint("enter new password");
         passwordEntry.setGravity(Gravity.CENTER);
         passwordEntry.setBackgroundColor(Color.parseColor("#CCCCCC"));
         passwordEntry.setHintTextColor(Color.parseColor("#444444"));
@@ -148,16 +147,16 @@ public class CreateAccountView extends LinearLayout
         passwordRow.addView( passwordEntry );
 
 
-        createAccount = new Button (context);
-        createAccount.setText("Create Account");
-        createAccount.setGravity(Gravity.CENTER);
-        createAccount.setBackgroundColor(Color.parseColor("#CCCCCC"));
-        createAccount.setTextColor(Color.parseColor("#444444"));
-        createAccount.setOnClickListener( listener );
-        createAccount.setEnabled( true );
-        createAccount.setMaxLines(1);
-        createAccount.setLayoutParams(buttonParams);
-        addView( createAccount );
+        modifyAccount = new Button (context);
+        modifyAccount.setText("Save Changes");
+        modifyAccount.setGravity(Gravity.CENTER);
+        modifyAccount.setBackgroundColor(Color.parseColor("#CCCCCC"));
+        modifyAccount.setTextColor(Color.parseColor("#444444"));
+        modifyAccount.setOnClickListener( listener );
+        modifyAccount.setEnabled( true );
+        modifyAccount.setMaxLines(1);
+        modifyAccount.setLayoutParams(buttonParams);
+        addView(modifyAccount);
     }
 
     public EditText getName()

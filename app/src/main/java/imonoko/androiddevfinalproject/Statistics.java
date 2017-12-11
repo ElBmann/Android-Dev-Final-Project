@@ -1,32 +1,26 @@
 package imonoko.androiddevfinalproject;
 
-
+/**
+ * Created by ImonokoI on 12/3/2017.
+ */
 public class Statistics {
-    private int ID;
+    private int id;
     private int wins;
     private int losses;
     private int reRolls;
     private int score;
     private int draws;
-    public Statistics()
-    {
-        //this.ID = ID;needs to be changed
-        //should be created along with an account to generate proper id
-        wins = 0;
-        losses = 0;
-        reRolls = 0;
-        score = 0;
-        draws = 0;
-    }
 
-    public int getID() {
-        return ID;
+    public Statistics(int id, int wins, int losses, int reRolls, int score, int draws) {
+        this.id=id;
+        this.wins = wins;
+        this.losses = losses;
+        this.reRolls = reRolls;
+        this.score = score;
+        this.draws = draws;
     }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
+    public int getID()
+    {return id;}
     public int getWins() {
         return wins;
     }
@@ -67,12 +61,12 @@ public class Statistics {
         this.draws = draws;
     }
     public String toString() {
-        return "Statistics\n" +
-                "\nID = \t" + ID +
-                "\nScore \t= " + score +
-                "\n" + wins + " wins" +
-                "\n" + losses + " losses" +
-                "\n" + reRolls + " re-rolls ";
+        return "Statistics{" +id+//id in toString is only used for debugging purposes
+                ", wins=" + wins +
+                ", losses=" + losses +
+                ", reRolls=" + reRolls +
+                ", score=" + score +
+                ", draws=" + draws +
+                '}';
     }
 }
-

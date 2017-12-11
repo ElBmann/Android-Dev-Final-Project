@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainMenu extends AppCompatActivity {
-
+    private LoginActivity LA = new LoginActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         TextView top = new TextView(this);
-       // top = (TextView) findViewById(R.id.editText);
+        //top = (TextView) findViewById(R.id.editText);
         setContentView(R.layout.activity_main_menu);
         Configuration config = getResources().getConfiguration();
         modifyLayout(config);
@@ -48,10 +48,9 @@ public class MainMenu extends AppCompatActivity {
     }
     public void IncrementWinScore()
     {
-        Statistics stat = new Statistics();
-        stat.setWins(stat.getWins()+1);
         DatabaseManager db = new DatabaseManager(this);
-        db.updateScores(0,stat);
+        Statistics stat = new Statistics(LA.getloginID(),1,0,0,0,0);
+        db.updateScores(stat);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
