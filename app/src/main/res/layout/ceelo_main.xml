@@ -16,7 +16,16 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/status"
+        android:id="@+id/Round_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_weight="0.10"
+        android:text="It's Round 1. " />
+
+    <TextView
+        android:id="@+id/Status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -42,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="Player 1" />
 
         <TextView
             android:id="@+id/Player_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="Player 2" />
     </LinearLayout>
 
     <TableLayout
