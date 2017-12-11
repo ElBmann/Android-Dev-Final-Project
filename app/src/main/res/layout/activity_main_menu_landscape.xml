@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="horizontal"
+    tools:context="imonoko.androiddevfinalproject.MainMenu">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/Player1Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Player One"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/logo"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        />
+
+    <TextView
+        android:id="@+id/Player2Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Player Two"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/logo"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        />
+
+    <EditText
+        android:id="@+id/Player1Initials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Initials"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorHighlight="@android:color/holo_red_light"
+        android:textColorLink="@android:color/holo_red_light"
+        android:inputType="textPersonName"
+        android:layout_alignLeft="@+id/Player1Label"
+        android:layout_below="@id/Player1Label"
+        />
+
+    <EditText
+        android:id="@+id/Player2Initials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Initials"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorHighlight="@android:color/holo_red_light"
+        android:textColorLink="@android:color/holo_red_light"
+        android:inputType="textPersonName"
+        android:layout_alignRight="@id/Player2Label"
+        android:layout_below="@id/Player2Label"
+        />
+
+    <Button
+        android:id="@+id/StartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startGame"
+        android:text="Start Game"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/Player1Initials"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="15dp"
+        />
+
+    <Button
+        android:id="@+id/Leaderboards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="gotoLeaderBoard"
+        android:text="Leaderboards"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/StartButton"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="15dp"
+        />
+
+
+</RelativeLayout>
