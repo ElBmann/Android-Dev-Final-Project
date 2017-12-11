@@ -52,7 +52,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public void showGameEndDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
         alert.setTitle( "The Game has ended" );
-        alert.setMessage( "Player " + clm.winMatchChecker() + " has won. \n Do you want to Play again against this player?" );
+        alert.setMessage( "Player " + clm.winMatchChecker() + " has won. \nDo you want to Play again against this player?" );
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
         alert.setNegativeButton( "NO", playAgain );
@@ -69,21 +69,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         }
     }
 
-    // Gestures - should roll dice ONLY through onFling - other methods unintentionally change the results too quickly/easily
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        this.gDetect.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onDown(MotionEvent event) {
-        return true;
-    }
-
-    // TODO: can possibly change the speed of the animation (if velocityX and velocityY are higher, may wish to reduce duration of animation)
-    @Override
-    public boolean onFling(MotionEvent event1, MotionEvent event2,  float velocityX, float velocityY)
+    public boolean progressGame()
     {
         scores = clm.getScores(); // update scores
         roundCounter.setText("It's Round " + clm.getRound() + ". ");
@@ -113,7 +99,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         }
 
         // reroll if necessary, here
-        //if ( clm.needToReroll() == false )
+        if ( clm.needToReroll() == true)
+            return false;
 
         clm.play(); // switch player
         gameStatus.setText("It's Player " + clm.getCurrentPlayer() + " turn!");
@@ -130,7 +117,26 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             // add stats to database
             showGameEndDialog();
         }
+        return  true;
+    }
 
+    // Gestures - should roll dice ONLY through onFling - other methods unintentionally change the results too quickly/easily
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.gDetect.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent event) {
+        return true;
+    }
+
+    // TODO: can possibly change the speed of the animation (if velocityX and velocityY are higher, may wish to reduce duration of animation)
+    @Override
+    public boolean onFling(MotionEvent event1, MotionEvent event2,  float velocityX, float velocityY)
+    {
+        while(progressGame()==false){}
         return true;
     }
 
