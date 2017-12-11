@@ -17,7 +17,7 @@ public class Rules extends AppCompatActivity {
         ScrollView SV = new ScrollView(this);
         LinearLayout LR = new LinearLayout(this);
         rules.setText("1. On startup all user will get chance/turn to roll 1 dice. Highest dice roll wins bank." +
-                " If more than 1 player have highest number, players " +
+                "\nIf more than 1 player have highest number, players " +
                 "that have the highest number must roll again to get the " +
                 "highest number. This must continue until it is established who has bank.");
         rules.setGravity(Gravity.CENTER_HORIZONTAL);
