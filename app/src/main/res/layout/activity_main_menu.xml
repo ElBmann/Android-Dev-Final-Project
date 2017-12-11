@@ -1,106 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context="imonoko.androiddevfinalproject.MainMenu">
 
-    <TextView
-        android:id="@+id/editText"
-        android:layout_width="132dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="0dp"
-        android:textSize="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Player Two"
-        app:layout_constraintBottom_toBottomOf="@+id/editText7"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText7"
-        app:layout_constraintVertical_bias="0.0" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
 
     <TextView
-        android:id="@+id/editText7"
-        android:layout_width="132dp"
-        android:layout_height="61dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="53dp"
-        android:textSize="20dp"
-        android:ems="10"
+        android:id="@+id/Player1Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Player One"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/logo"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        />
 
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="134dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="8dp"
-
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Enter Intials"
-        app:layout_constraintBottom_toBottomOf="@+id/editText8"
-        app:layout_constraintLeft_toLeftOf="@+id/editText"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText8"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <EditText
-        android:id="@+id/editText8"
-        android:layout_width="134dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="56dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Enter Intials"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText7"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/Player2Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Game"
+        android:inputType="textPersonName"
+        android:text="Player Two"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/logo"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        />
+
+    <EditText
+        android:id="@+id/Player1Initials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Initials"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorHighlight="@android:color/holo_red_light"
+        android:textColorLink="@android:color/holo_red_light"
+        android:inputType="textPersonName"
+        android:layout_alignLeft="@+id/Player1Label"
+        android:layout_below="@id/Player1Label"
+        />
+
+    <EditText
+        android:id="@+id/Player2Initials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Initials"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorHighlight="@android:color/holo_red_light"
+        android:textColorLink="@android:color/holo_red_light"
+        android:inputType="textPersonName"
+        android:layout_alignRight="@id/Player2Label"
+        android:layout_below="@id/Player2Label"
+        />
+
+    <Button
+        android:id="@+id/StartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="startGame"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="270dp" />
+        android:text="Start Game"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/Player1Initials"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="35dp"
+        />
 
     <Button
-        android:id="@+id/LeaderBoard"
+        android:id="@+id/Leaderboards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="332dp"
-        android:text="Leader Board"
         android:onClick="gotoLeaderBoard"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Leaderboards"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/StartButton"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="35dp"
+        />
 
 
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

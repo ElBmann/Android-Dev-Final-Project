@@ -8,7 +8,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -73,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         dbManger = new DatabaseManager(this);
         setContentView(R.layout.activity_login);
+     //   Configuration config = getResources().getConfiguration();
+     //   modifyLayout(config);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -106,14 +106,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //RegisterButton
         Button mRegisterButton = (Button) findViewById(R.id.register_sign_in_button);
 
-        /*
-        mRegisterButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-        */
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -124,7 +116,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setText(savedInstanceState.getString("email"));
         }
 
-    }
+
+
+    }//ends onCreate
     public int getloginID()
     {
         return loginID;
@@ -413,27 +407,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        modifyLayout(newConfig);
-        if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
-            modifyLayout(newConfig);
-        }else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
-            modifyLayout(newConfig);
-        }else{
-            Log.w("MA","Undetermined Postion");
-        }
-
-    }
-    private void modifyLayout(Configuration newConfig) {
-
-        if(newConfig.orientation== Configuration.ORIENTATION_LANDSCAPE) {
-
-            setContentView(R.layout.activity_login_landscape);
-
-        } else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
-            setContentView(R.layout.activity_login);
-            }
-
-    }
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        modifyLayout(newConfig);
+//        if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
+//            modifyLayout(newConfig);
+//        }else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+//            modifyLayout(newConfig);
+//        }else{
+//            Log.w("MA","Undetermined Position");
+//        }
+//
+//    }
+//    private void modifyLayout(Configuration newConfig) {
+//
+//        if(newConfig.orientation== Configuration.ORIENTATION_LANDSCAPE) {
+//
+//            setContentView(R.layout.activity_login_landscape);
+//
+//        } else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+//            setContentView(R.layout.activity_login);
+//            }
+//
+//    }
 }

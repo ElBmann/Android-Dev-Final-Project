@@ -1,8 +1,10 @@
 package imonoko.androiddevfinalproject;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,9 +15,12 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         TextView top = new TextView(this);
-        top = (TextView) findViewById(R.id.editText);
+       // top = (TextView) findViewById(R.id.editText);
         setContentView(R.layout.activity_main_menu);
+        Configuration config = getResources().getConfiguration();
+        modifyLayout(config);
     }
 
     @Override
@@ -85,4 +90,31 @@ public class MainMenu extends AppCompatActivity {
 
         return true;
     }//End onOptionItemSelected
+
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        modifyLayout(newConfig);
+        if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
+            modifyLayout(newConfig);
+        }else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+            modifyLayout(newConfig);
+        }else{
+            Log.w("MA","Undetermined Position");
+        }
+
+    }
+
+    private void modifyLayout(Configuration newConfig) {
+
+        if(newConfig.orientation== Configuration.ORIENTATION_LANDSCAPE) {
+
+            setContentView(R.layout.activity_main_menu_landscape);
+
+        } else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+            setContentView(R.layout.activity_main_menu);
+        }
+
+    }
+
 }

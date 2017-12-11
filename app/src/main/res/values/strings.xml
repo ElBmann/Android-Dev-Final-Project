@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CEELO DAWG</string>
+    <string name="app_name">CEE-LO</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -22,4 +22,5 @@
     <string name="modifyAccount">Modify Account</string>
     <string name="How">How To Play</string>
     <string name="stats">Statistics</string>
+    <string name="swipe">Swipe to Roll the Dice</string>
 </resources>
