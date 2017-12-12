@@ -31,18 +31,29 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
         if( stats.size( ) > 0 ) {
             // create ScrollView and GridLayout
-            ScrollView scrollView = new ScrollView( this );
-            GridLayout grid = new GridLayout( this );
-            grid.setRowCount( stats.size( ) );
-            grid.setColumnCount( 6 );
+            ScrollView scrollView = new ScrollView(this);
+            GridLayout grid = new GridLayout(this);
+            grid.setRowCount(stats.size());
+            grid.setColumnCount(6);
             // create an array of stats
-            TextView[][] accountStats = new TextView[stats.size( )+1][6];
+            TextView[][] accountStats = new TextView[stats.size() + 1][6];
+            TextView[] accountLabel = new TextView[6];
 
             // retrieve width of screen
-            Point size = new Point( );
-            getWindowManager( ).getDefaultDisplay( ).getSize( size );
+            Point size = new Point();
+            getWindowManager().getDefaultDisplay().getSize(size);
             int width = size.x;
-
+            /*accountLabel[0].setText("name");
+            accountLabel[1].setText("score");
+            accountLabel[2].setText("wins");
+            accountLabel[3].setText("losses");
+            accountLabel[4].setText("re-rolls");
+            accountLabel[5].setText("draws");
+            for (int i = 0; i < 6; i++)
+            {
+                grid.addView(accountLabel[i], (int) (width * .15),
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+            }*/
             int i = 0;
             for ( Statistics stat : stats ) {
 
@@ -54,24 +65,13 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 }
 
                 //create label for each stat attribute for every column
-                if(i==0){
-                    accountStats[i][0].setText("name");
-                    accountStats[i][1].setText("score");
-                    accountStats[i][2].setText("wins");
-                    accountStats[i][3].setText("losses");
-                    accountStats[i][4].setText("re-rolls");
-                    accountStats[i][5].setText("draws");
-                }
-                else//add stats from database onto the page
-                {
-                    accountStats[i][0].setText(""+Acclist.get(i).getUserName());
-                    //stat.getID() is a placeholder until we get actual ids
-                    accountStats[i][1].setText("" + stat.getScore());
-                    accountStats[i][2].setText("" + stat.getWins());
-                    accountStats[i][3].setText("" + stat.getLosses());
-                    accountStats[i][4].setText("" + stat.getReRolls());
-                    accountStats[i][5].setText("" + stat.getDraws());
-                }
+                accountStats[i][0].setText(""+Acclist.get(i).getUserName());
+                //stat.getID() is a placeholder until we get actual ids
+                accountStats[i][1].setText("" + stat.getScore());
+                accountStats[i][2].setText("" + stat.getWins());
+                accountStats[i][3].setText("" + stat.getLosses());
+                accountStats[i][4].setText("" + stat.getReRolls());
+                accountStats[i][5].setText("" + stat.getDraws());
 
                 // add the elements to grid
                 for(int j=0;j<6;j++) {

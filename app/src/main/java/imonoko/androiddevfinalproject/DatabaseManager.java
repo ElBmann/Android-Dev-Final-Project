@@ -76,7 +76,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL( sqlInsert ); // inserts wins, losses, re-rolls, scores,and draws
         db.close( );
     }
-    public void modifyAccount(Account acc) {
+    public void modifyAccount(Account acc){
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlUpdate = "update " + TABLE_ACCOUNTS;
         sqlUpdate += " set " + USER_NAME + " = '" + acc.getUserName()+ "', ";
@@ -87,8 +87,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(sqlUpdate); // updates username, email, password
         db.close();
     }
-    public void updateScores(Statistics stats)
-    {
+    public void updateScores(Statistics stats) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlUpdate = "update " + TABLE_STATISTICS;
         sqlUpdate += " set " + WINS + " = '" + stats.getWins() + "'";

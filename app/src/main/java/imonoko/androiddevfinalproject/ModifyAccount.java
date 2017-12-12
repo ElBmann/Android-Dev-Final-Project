@@ -50,13 +50,13 @@ public class ModifyAccount extends AppCompatActivity {
         name = accountToMod.getUserName();
         email = accountToMod.getEmail();
         pw = accountToMod.getPassword();
-        if(new_userNameBox==null)
+        if(new_userNameBox!=null)
             name = new_userNameBox.getText().toString();
 
-        if(new_emailBox==null)
+        if(new_emailBox!=null)
             email = new_emailBox.getText().toString();
 
-        if(new_pwBox==null)
+        if(new_pwBox!=null)
             pw = new_pwBox.getText().toString();
         // validate the entered data
         Account acc = new Account(ID, name, email, pw); // creates an account

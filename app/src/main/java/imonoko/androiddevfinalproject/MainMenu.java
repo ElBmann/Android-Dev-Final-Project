@@ -51,8 +51,9 @@ public class MainMenu extends AppCompatActivity {
     public void IncrementWinScore()
     {
         DatabaseManager db = new DatabaseManager(this);
-        Statistics stat = new Statistics(LA.getloginID(),1,0,0,0,0);
-        db.updateScores(stat);
+        Statistics oldStat = db.searchForStat(LA.getloginID());
+        Statistics newStat = new Statistics(LA.getloginID(),oldStat.getWins()+1,0,0,0,0);
+        db.updateScores(newStat);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
