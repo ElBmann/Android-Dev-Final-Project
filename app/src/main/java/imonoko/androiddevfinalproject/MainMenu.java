@@ -3,6 +3,7 @@ package imonoko.androiddevfinalproject;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +15,12 @@ import android.widget.TextView;
 
 public class MainMenu extends AppCompatActivity {
     private LoginActivity LA = new LoginActivity();
+    private TextView p1Name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
+        player.start();
         TextView top = new TextView(this);
         //top = (TextView) findViewById(R.id.editText);
         setContentView(R.layout.activity_main_menu);
@@ -45,15 +48,8 @@ public class MainMenu extends AppCompatActivity {
     }
     public void startGame(View v)
     {
-        Intent startGame_intent = new Intent(this, GameActivity.class);
+        Intent startGame_intent = new Intent(this, waitRoom.class);
         this.startActivity(startGame_intent);
-    }
-    public void IncrementWinScore()
-    {
-        DatabaseManager db = new DatabaseManager(this);
-        Statistics oldStat = db.searchForStat(LA.getloginID());
-        Statistics newStat = new Statistics(LA.getloginID(),oldStat.getWins()+1,0,0,0,0);
-        db.updateScores(newStat);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -74,10 +70,6 @@ public class MainMenu extends AppCompatActivity {
             case R.id.action_ClearDataBase:
                 DatabaseManager db = new DatabaseManager(this);
                 db.clearDataBase();
-                // another startActivity, this is for item with id "menu_item2"
-                break;
-            case R.id.action_AddPoints:
-                IncrementWinScore();
                 // another startActivity, this is for item with id "menu_item2"
                 break;
             case R.id.action_logout:

@@ -191,7 +191,8 @@ public class CeeLoModel
     /*0 == Nothing, 1 == Win, And 2 == Loss*/
 // returns the corresponding int of the winner
 //TODO: Needs a comparison to see who rolled first in case of a draw - Done through ComparePoint private method for twoOfAKind scenario
-    public int winRoundChecker(){//.................................................................Checks if player won the Round
+    public int winRoundChecker(){
+        //..Checks if player won the Round
 
         // call the win checking methods
         if(oneOfAKind()== true)
@@ -332,4 +333,12 @@ public class CeeLoModel
         else
             return 0;
      }
+    public void newGame()//sets up for a new game
+    {
+        //resets all variables
+        round=1;
+        for (int gs = 0; gs < gameScore.length; gs++)
+            gameScore[gs] = 0;
+        resetForNextRound();
+    }
 }

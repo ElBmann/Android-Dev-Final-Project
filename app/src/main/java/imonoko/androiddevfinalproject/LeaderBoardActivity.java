@@ -33,10 +33,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
             // create ScrollView and GridLayout
             ScrollView scrollView = new ScrollView(this);
             GridLayout grid = new GridLayout(this);
-            grid.setRowCount(stats.size());
+            grid.setRowCount(stats.size()+1);
             grid.setColumnCount(6);
             // create an array of stats
-            TextView[][] accountStats = new TextView[stats.size() + 1][6];
+            TextView[][] accountStats = new TextView[stats.size()][6];
             TextView[] accountLabel = new TextView[6];
 
             // retrieve width of screen
@@ -51,7 +51,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
             accountLabel[5].setText("draws");
             for (int i = 0; i < 6; i++)
             {
-                grid.addView(accountLabel[i], (int) (width * .15),
+                LR.addView(accountLabel[i], (int) (width * .15),
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }*/
             int i = 0;

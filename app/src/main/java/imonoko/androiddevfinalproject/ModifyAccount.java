@@ -9,7 +9,7 @@ import android.widget.Toast;
  */
 public class ModifyAccount extends AppCompatActivity {
     private DatabaseManager dbManager; // used for the addAccount sql operation
-    private ModifyAccountView maView; // layout for create account activity
+    private ModifyAccountView maView;
 
     private EditText new_userNameBox;
     private EditText new_emailBox;
@@ -47,17 +47,17 @@ public class ModifyAccount extends AppCompatActivity {
         new_emailBox = maView.getMail();
         new_pwBox = maView.getPW();
 
-        name = accountToMod.getUserName();
-        email = accountToMod.getEmail();
-        pw = accountToMod.getPassword();
-        if(new_userNameBox!=null)
-            name = new_userNameBox.getText().toString();
+        name = new_userNameBox.getText().toString();
+        email = new_emailBox.getText().toString();
+        pw = new_pwBox.getText().toString();
+        if(name.equals(""))
+            name = accountToMod.getUserName();
 
-        if(new_emailBox!=null)
-            email = new_emailBox.getText().toString();
+        if(email.equals(""))
+            email = accountToMod.getEmail();
 
-        if(new_pwBox!=null)
-            pw = new_pwBox.getText().toString();
+        if(pw.equals(""))
+            pw = accountToMod.getPassword();
         // validate the entered data
         Account acc = new Account(ID, name, email, pw); // creates an account
         if(checkInput(acc)==true)//ca.checkInput(acc)==true)
@@ -75,17 +75,7 @@ public class ModifyAccount extends AppCompatActivity {
             int checkName = checkUserName(acc.getUserName());
             int checkMail = checkEmail(acc.getEmail());
             int checkPass = checkPassword(acc.getPassword());
-
-            if (name.equals("")) // the username was left blank
-            {
-                Toast.makeText(this, "Please enter a username.", Toast.LENGTH_SHORT).show();
-            } else if (email.equals("")) // the email was left blank
-            {
-                Toast.makeText(this, "Please enter an email address.", Toast.LENGTH_SHORT).show();
-            } else if (pw.equals("")) // the password was left blank
-            {
-                Toast.makeText(this, "Please enter a password.", Toast.LENGTH_SHORT).show();
-            } else if (checkName == -1) // the username was too long
+            if (checkName == -1) // the username was too long
             {
                 Toast.makeText(this, "Invalid Username. User name cannot contain more than 10 characters ", Toast.LENGTH_SHORT).show();
             } else if (checkName == -2) // the username was too short

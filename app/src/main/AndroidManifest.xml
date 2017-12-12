@@ -16,8 +16,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"
-            android:configChanges= "orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,9 +28,13 @@
         <activity android:name=".MainMenu" />
         <activity android:name=".Rules" />
         <activity android:name=".ModifyAccount" />
-        <activity android:name=".StatisticsActivity"/>
-        <activity android:name=".LeaderBoardActivity"/>
-        <activity android:name=".GameActivity"/>
+        <activity android:name=".StatisticsActivity" />
+        <activity android:name=".LeaderBoardActivity" />
+        <activity android:name=".GameActivity" />
+        <activity
+            android:name=".waitRoom"
+            android:label="@string/title_activity_wait_room"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

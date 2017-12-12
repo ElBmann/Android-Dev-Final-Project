@@ -3,6 +3,7 @@ package imonoko.androiddevfinalproject;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
@@ -10,9 +11,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import java.util.Random;
 
+/*
+* There is alot of code here and I want all opinions on whether or not we should migrate some
+* of it to a separate class
+* */
 public class GameActivity extends Activity implements GestureDetector.OnGestureListener{
-
+    private DatabaseManager db;
+    LoginActivity LA;
     private CeeLoModel clm;
     private GestureDetectorCompat gDetect;
     private TextView diceResults;
@@ -20,14 +27,28 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     private TextView p2Status;
     private TextView gameStatus;
     private TextView roundCounter;
+    private Account p1Acc;
+    private Account p2Acc;
     private String p1; // status box for player 1
     private String p2; // status box for player 2
+    private Statistics stat;
     private int [] scores;
+    private MediaPlayer winsound;
+    private MediaPlayer losesound;
+    private int wins;
+    private int losses;
+    private int draws;
+    private int totalScore;
+    private int rerolls;
+    private waitRoom wr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ceelo_main);
-
+        LA = new LoginActivity();
+        wr = new waitRoom();
+        winsound= MediaPlayer.create(this,R.raw.yay);
+        losesound=MediaPlayer.create(this,R.raw.boo);
         clm = new CeeLoModel();
         gDetect = new GestureDetectorCompat(this,this);
         diceResults = (TextView) findViewById(R.id.results);
@@ -35,10 +56,16 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         p2Status = (TextView) findViewById(R.id.Player_2);
         gameStatus = (TextView) findViewById(R.id.Status);
         roundCounter = (TextView) findViewById(R.id.Round_count);
-
+        p1Acc=wr.getPlayer1Account();
+        p2Acc= wr.getPlayer2Account();
         scores = clm.getScores();
-        p1Status.setText("Player 1 \n\n Score: " + Integer.toString(scores[0]) + "\n");
-        p2Status.setText("Player 2 \n\n Score: " + Integer.toString(scores[1]) + "\n");
+        wins=0;
+        losses=0;
+        draws=0;
+        totalScore=0;
+        rerolls=0;
+        p1Status.setText("player 1\n\n Score: " + Integer.toString(scores[0]) + "\n");
+        p2Status.setText("player 2\n\n Score: " + Integer.toString(scores[1]) + "\n");
     }
 
     // TODO: displays results in the text view - SHOULD REPLACE WITH ANIMATION
@@ -52,7 +79,18 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public void showGameEndDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
         alert.setTitle( "The Game has ended" );
-        alert.setMessage( "Player " + clm.winMatchChecker() + " has won. \nDo you want to Play again against this player?" );
+        if(clm.winMatchChecker()==1)
+        {
+            wins++;
+            winsound.start();
+            alert.setMessage( "Congratulations YOU won. \nDo you want to Play again against player2 ?" );
+        }
+        else
+        {
+            losses++;
+            losesound.start();
+            alert.setMessage( "You lost. \nDo you want to Play again against player 2?" );
+        }
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
         alert.setNegativeButton( "NO", playAgain );
@@ -62,13 +100,15 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         public void onClick( DialogInterface dialog, int id ) {
             if( id == -1 ) // YES
             {
-                // need to implement
+                clm.newGame();
             }
             else if( id == -2 ) // NO
-                GameActivity.this.finish( ); // return to main menu
+            {
+                UpdateScore();
+                GameActivity.this.finish(); // return to main menu
+            }
         }
     }
-
     public boolean progressGame()
     {
         scores = clm.getScores(); // update scores
@@ -76,11 +116,10 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         this.updateView(); // swiped so dice is rolled
 
-
-
         clm.updateScores(); // checks for winner/ update round if needed
 
         int player = clm.getCurrentPlayer( );
+
 
         if( player == 1)
         {
@@ -119,7 +158,20 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         }
         return  true;
     }
-
+    public void UpdateScore()//score updating is strictly client-side
+    //meaning that data is only recorded for the playing using the current device
+    //(this is if we add multiplayer functionality )
+    {
+        DatabaseManager db = new DatabaseManager(this);
+        Statistics oldStat = db.searchForStat(LA.getloginID());
+        db.updateScores(new Statistics(
+                oldStat.getID(),
+                oldStat.getWins()+wins,
+                oldStat.getLosses()+losses,
+                oldStat.getReRolls()+rerolls,
+                oldStat.getScore()+ totalScore,
+                oldStat.getDraws()+draws));
+    }
     // Gestures - should roll dice ONLY through onFling - other methods unintentionally change the results too quickly/easily
     @Override
     public boolean onTouchEvent(MotionEvent event){

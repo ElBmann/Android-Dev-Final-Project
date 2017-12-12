@@ -12,8 +12,6 @@
         android:title="@string/How"/>
     <item android:id="@+id/action_ClearDataBase"
         android:title="DESTROY EVERYTHING"/>
-    <item android:id="@+id/action_AddPoints"
-        android:title="+1 WINS"/>
     <item android:id="@+id/action_modifyAccount"
         android:title="@string/modifyAccount"/>
     <item android:id="@+id/action_logout"
