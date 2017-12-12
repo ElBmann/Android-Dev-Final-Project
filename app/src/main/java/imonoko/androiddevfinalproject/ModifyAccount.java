@@ -27,7 +27,7 @@ public class ModifyAccount extends AppCompatActivity {
         maView = new ModifyAccountView(this, bh);
         super.onCreate(savedInstanceState);
         dbManager = new DatabaseManager(this);
-        ID= 5;//LA.getloginID();
+        ID= LA.getloginID();
         accountToMod = dbManager.searchForAccountbyID(ID);
         setContentView(maView);
         name="";

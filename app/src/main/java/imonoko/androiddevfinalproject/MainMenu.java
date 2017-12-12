@@ -1,8 +1,10 @@
 package imonoko.androiddevfinalproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -69,8 +71,8 @@ public class MainMenu extends AppCompatActivity {
                 // another startActivity, this is for item with id "menu_item2"
                 break;
             case R.id.action_ClearDataBase:
-                DatabaseManager dbm = new DatabaseManager(this);
-                dbm.clearDataBase();
+                DatabaseManager db = new DatabaseManager(this);
+                db.clearDataBase();
                 // another startActivity, this is for item with id "menu_item2"
                 break;
             case R.id.action_AddPoints:

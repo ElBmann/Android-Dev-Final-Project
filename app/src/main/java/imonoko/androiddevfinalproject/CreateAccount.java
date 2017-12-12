@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class CreateAccount extends AppCompatActivity {
 
     private DatabaseManager dbManager; // used for the addAccount sql operation
-    private ModifyAccountView caView; // layout for create account activity
+    private CreateAccountView caView; // layout for create account activity
 
     private EditText userNameBox;
     private EditText emailBox;
@@ -26,11 +26,10 @@ public class CreateAccount extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ButtonHandler bh = new ButtonHandler();
-        caView = new ModifyAccountView(this, bh);
+        caView = new CreateAccountView(this, bh);
         super.onCreate(savedInstanceState);
         dbManager = new DatabaseManager(this);
         setContentView(caView);
-
         name = "";
         email = "";
         pw = "";

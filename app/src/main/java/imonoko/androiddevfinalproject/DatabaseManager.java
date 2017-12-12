@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
     //user account table
-    private static final String DATABASE_NAME = "usersDB";
+    private static final String DATABASE_NAME = "users";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_ACCOUNTS ="User_Accounts";
     private static final String USER_ID = "User_ID";
@@ -53,8 +53,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void clearDataBase()
     {
         SQLiteDatabase db = this.getWritableDatabase( );
-        String sqlDeleteAll = "DELETE FROM "+TABLE_ACCOUNTS;
-        sqlDeleteAll+=" WHERE USER_ID >= 0";
+        String sqlDeleteAll = "drop database '"+DATABASE_NAME+"'";
         db.execSQL( sqlDeleteAll ); //Deletes EVERYTHING
         db.close( );
     }
