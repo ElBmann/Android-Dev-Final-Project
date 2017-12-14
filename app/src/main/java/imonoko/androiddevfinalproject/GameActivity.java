@@ -2,16 +2,14 @@ package imonoko.androiddevfinalproject;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.Random;
 
 /*
 * There is alot of code here and I want all opinions on whether or not we should migrate some
@@ -22,11 +20,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     LoginActivity LA;
     private CeeLoModel clm;
     private GestureDetectorCompat gDetect;
-    private TextView diceResults;
-    private TextView p1Status;
-    private TextView p2Status;
-    private TextView gameStatus;
-    private TextView roundCounter;
+    private TextView diceResults, p1Status,p2Status,gameStatus,roundCounter;
+    public static ImageView dicePos1,dicePos2,dicePos3;
     private Account p1Acc;
     private Account p2Acc;
     private String p1; // status box for player 1
@@ -47,11 +42,14 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         setContentView(R.layout.ceelo_main);
         LA = new LoginActivity();
         wr = new waitRoom();
-        winsound= MediaPlayer.create(this,R.raw.yay);
-        losesound=MediaPlayer.create(this,R.raw.boo);
+        //winsound= MediaPlayer.create(this,R.raw.yay);
+        //losesound=MediaPlayer.create(this,R.raw.boo);
         clm = new CeeLoModel();
         gDetect = new GestureDetectorCompat(this,this);
         diceResults = (TextView) findViewById(R.id.results);
+        dicePos1 = (ImageView) findViewById(R.id.dice1);
+        dicePos2 = (ImageView) findViewById(R.id.dice2);
+        dicePos3 = (ImageView) findViewById(R.id.dice3);
         p1Status = (TextView) findViewById(R.id.Player_1);
         p2Status = (TextView) findViewById(R.id.Player_2);
         gameStatus = (TextView) findViewById(R.id.Status);
@@ -82,13 +80,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         if(clm.winMatchChecker()==1)
         {
             wins++;
-            winsound.start();
+            //winsound.start();
             alert.setMessage( "Congratulations YOU won. \nDo you want to Play again against player2 ?" );
         }
         else
         {
             losses++;
-            losesound.start();
+            //losesound.start();
             alert.setMessage( "You lost. \nDo you want to Play again against player 2?" );
         }
         PlayDialog playAgain = new PlayDialog( );
@@ -101,6 +99,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             if( id == -1 ) // YES
             {
                 clm.newGame();
+                progressGame();
             }
             else if( id == -2 ) // NO
             {

@@ -9,12 +9,12 @@ public class CeeLoModel
     int oneKind,twoKind,threeKind = 0;
     private Random diceRoll = new Random();
     private int [] roll;
-    private int [] point; // the non-duplicate dice value when getting two of a kind
-    private int [] gameScore; // the score for each match
-    private boolean [] played; // checks if both player went
+    private int [] point;//.........................................................................the non-duplicate dice value when getting two of a kind
+    private int [] gameScore;//.....................................................................the score for each match
+    private boolean [] played;//....................................................................checks if both player went
     private int turn;
     private int round;
-    private int recentWinner; // the player who just won the previous round
+    private int recentWinner;//.....................................................................the player who just won the previous round
     Statistics CurrentStat;
     //Dice Roll
 
@@ -127,17 +127,17 @@ public class CeeLoModel
 
     public boolean twoOfAKind(){//..................................................................If any of the dice are two of a kind Returns True
         if(roll[0]==roll[1] && roll[0]!= roll[2]){
-            point[getCurrentPlayer( )-1] = roll[2]; // current player's "point" is the non-duplicated die's value
+            point[getCurrentPlayer( )-1] = roll[2];//...............................................current player's "point" is the non-duplicated die's value
             twoKind++;//.............................................................................Counter 2 of a kind
             return true;
         }
         else if(roll[0]==roll[2] && roll[0]!=roll[1]){
-            point[getCurrentPlayer( )-1] = roll[1]; // current player's "point" is the non-duplicated die's value
+            point[getCurrentPlayer( )-1] = roll[1];//...............................................current player's "point" is the non-duplicated die's value
             twoKind++;
             return true;
         }
         else if(roll[1]==roll[2] && roll[1]!=roll[0]){
-            point[getCurrentPlayer( )-1] = roll[0]; // current player's "point" is the non-duplicated die's value
+            point[getCurrentPlayer( )-1] = roll[0];//...............................................current player's "point" is the non-duplicated die's value
             twoKind++;
             return true;
         }else {
@@ -153,7 +153,7 @@ public class CeeLoModel
         return false;
     }
 
-    public int showPoint( ) // if got a twoOfAKind display point
+    public int showPoint( )//.......................................................................if got a twoOfAKind display point
     {
         if (twoOfAKind() == true)
             return point[getCurrentPlayer()-1];
@@ -162,27 +162,27 @@ public class CeeLoModel
             return 0;
     }
 
-    public int getCurrentPlayer( ) // returns the current player- the player who is rolling the dice this turn
+    public int getCurrentPlayer( )//................................................................returns the current player- the player who is rolling the dice this turn
     {
-        if(turn == 1) // It's player 1's turn
+        if(turn == 1)//.............................................................................It's player 1's turn
         {
             return 1;
         }
 
-        else // It's player 2's turn
+        else//......................................................................................It's player 2's turn
         {
             return 2;
         }
     }
 
-    public int getOtherPlayer( )// returns the opponent- the player who is not going this turn
+    public int getOtherPlayer( )//..................................................................returns the opponent- the player who is not going this turn
     {
-        if(turn == 1) // It's player 1's turn
+        if(turn == 1)//.............................................................................It's player 1's turn
         {
             return 2;
         }
 
-        else // It's player 2's turn
+        else//......................................................................................It's player 2's turn
         {
             return 1;
         }
@@ -204,7 +204,7 @@ public class CeeLoModel
             boolean hasFive = false;
             boolean hasSix = false;
 
-            for (int o = 0; o < roll.length; o++ ) // checks which of the following is present
+            for (int o = 0; o < roll.length; o++ )//................................................checks which of the following is present
             {
                 if (roll[o] == 1)
                     hasOne = true;
@@ -236,16 +236,16 @@ public class CeeLoModel
         /*Checks if one side of the die is 6 which is an automatic win*/
         if(twoOfAKind()==true){
 
-            if(roll[0]==6 && roll[1]!=6 && roll[2]!=6 ) {//......................................Checks if first dice = 6
+            if(roll[0]==6 && roll[1]!=6 && roll[2]!=6 ) {//.........................................Checks if first dice = 6
                 return getCurrentPlayer();
 
-            }else if(roll[1]==6 && roll[0]!=6 && roll[2]!=6){//..................................Checks if second dice = 6
+            }else if(roll[1]==6 && roll[0]!=6 && roll[2]!=6){//.....................................Checks if second dice = 6
                 return getCurrentPlayer();
 
-            }else if(roll[2]== 6 && roll[0]!=6 && roll[1]!=6){//.................................Checks if third dice = 6
+            }else if(roll[2]== 6 && roll[0]!=6 && roll[1]!=6){//....................................Checks if third dice = 6
                 return getCurrentPlayer();
             }
-            else //................................. No instant winner, compare point instead
+            else //.................................................................................No instant winner, compare point instead
             {
                 if ( played[0] == true && played[1]  == true) //both players went
                 {
@@ -264,14 +264,14 @@ public class CeeLoModel
 
     private int comparePoint()
     {
-        if ( point[getOtherPlayer()-1] >= point [getCurrentPlayer()-1]) //the player who went first has greater or equal value then the person who went second
+        if ( point[getOtherPlayer()-1] >= point [getCurrentPlayer()-1])//...........................the player who went first has greater or equal value then the person who went second
         {
-            return getOtherPlayer(); // the player who went first won
+            return getOtherPlayer();//..............................................................the player who went first won
         }
 
         else
         {
-            return getCurrentPlayer(); // the player who went afterwards won
+            return getCurrentPlayer();//............................................................the player who went afterwards won
         }
     }
 
@@ -279,13 +279,13 @@ public class CeeLoModel
     // TODO: call this within GameActivity to progress the game
     public void updateScores()
     {
-        int winner = winRoundChecker(); // get the identity of the winner, if any
+        int winner = winRoundChecker();//...........................................................get the identity of the winner, if any
 
-        if(winner > 0) // there was a winner
+        if(winner > 0)//............................................................................there was a winner
         {
-            gameScore[winner-1] += 1; //increment the score of the winner by one
-            recentWinner = winner; // identify the winner
-            Round(); // check if there is a winner and increment the round counter
+            gameScore[winner-1] += 1;//.............................................................increment the score of the winner by one
+            recentWinner = winner;//................................................................identify the winner
+            Round();//..............................................................................check if there is a winner and increment the round counter
         }
     }
 
@@ -303,17 +303,78 @@ public class CeeLoModel
     // clears variables for next round
     public void resetForNextRound()
     {
-        turn = getOtherPlayer(); // let the loser of the previous round go first
-        roll = new int[3]; // reset the roll
-        point = new int[2]; // reset point
+        turn = getOtherPlayer();//..................................................................let the loser of the previous round go first
+        roll = new int[3];//........................................................................reset the roll
+        point = new int[2];//.......................................................................reset point
         recentWinner = 0;
         for (int pl = 0; pl < played.length; pl++)
             played[pl] = false;
     }
 
-    public String displayResult()
+    public String displayResult()//.................................................................Displays the Dice
     {
+
         String values = "";
+
+        /*Position one in tableGrid*/
+        if(roll[0]==1){
+            GameActivity.dicePos1.setImageResource(R.drawable.dice1);
+        }
+        else if(roll[0]==2){
+            GameActivity.dicePos1.setImageResource(R.drawable.dice2);
+        }
+        else if(roll[0]==3){
+            GameActivity.dicePos1.setImageResource(R.drawable.dice3);
+        }
+        else if(roll[0]==4){
+            GameActivity.dicePos1.setImageResource(R.drawable.dice4);
+        }
+        else if(roll[0]==5){
+            GameActivity.dicePos1.setImageResource(R.drawable.dice5);
+        }
+        else if(roll[0]==6){
+            GameActivity.dicePos1.setImageResource(R.drawable.dice6);
+        }
+        /*Position 2 in tableGrid*/
+        if(roll[1]==1){
+        GameActivity.dicePos2.setImageResource(R.drawable.dice1);
+    }
+    else if(roll[1]==2){
+        GameActivity.dicePos2.setImageResource(R.drawable.dice2);
+    }
+    else if(roll[1]==3){
+        GameActivity.dicePos2.setImageResource(R.drawable.dice3);
+    }
+    else if(roll[1]==4){
+        GameActivity.dicePos2.setImageResource(R.drawable.dice4);
+    }
+    else if(roll[1]==5){
+        GameActivity.dicePos2.setImageResource(R.drawable.dice5);
+    }
+    else if(roll[1]==6){
+        GameActivity.dicePos2.setImageResource(R.drawable.dice6);
+    }
+        /*Position 3 in tableGrid*/
+
+        if(roll[2]==1){
+            GameActivity.dicePos3.setImageResource(R.drawable.dice1);
+        }
+        else if(roll[2]==2){
+            GameActivity.dicePos3.setImageResource(R.drawable.dice2);
+        }
+        else if(roll[2]==3){
+            GameActivity.dicePos3.setImageResource(R.drawable.dice3);
+        }
+        else if(roll[2]==4){
+            GameActivity.dicePos3.setImageResource(R.drawable.dice4);
+        }
+        else if(roll[2]==5){
+            GameActivity.dicePos3.setImageResource(R.drawable.dice5);
+        }
+        else if(roll[2]==6){
+            GameActivity.dicePos3.setImageResource(R.drawable.dice6);
+        }
+
 
         for (int r = 0; r < roll.length; r++)
         {

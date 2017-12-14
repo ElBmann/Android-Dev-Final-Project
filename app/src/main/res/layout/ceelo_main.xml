@@ -6,6 +6,44 @@
     android:weightSum="1"
     tools:context="imonoko.androiddevfinalproject.MainMenu">
 
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/dice1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+    <ImageView
+        android:id="@+id/dice2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/dice3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+
+    </TableRow>
+
+</TableLayout>
+
+
+
+
+
     <TextView
         android:id="@+id/results"
         android:layout_width="match_parent"
@@ -20,9 +58,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
+        android:gravity="top"
         android:layout_weight="0.10"
-        android:text="It's Round 1. " />
+        android:text="It's Round 1. "
+        android:textSize="20sp"/>
+
+
 
     <TextView
         android:id="@+id/Status"
@@ -50,6 +91,7 @@
             android:id="@+id/Player_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="right"
             android:layout_weight="1"
             android:text="Player 1" />
 

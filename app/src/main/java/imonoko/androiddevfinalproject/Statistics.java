@@ -1,8 +1,6 @@
 package imonoko.androiddevfinalproject;
 
-/**
- * Created by ImonokoI on 12/3/2017.
- */
+
 public class Statistics {
     private int id;
     private int wins;

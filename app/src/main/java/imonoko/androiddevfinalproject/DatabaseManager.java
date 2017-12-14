@@ -95,9 +95,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String sqlUpdate = "update " + TABLE_STATISTICS;
         sqlUpdate += " set " + WINS + " = '" + stats.getWins() + "'";
         sqlUpdate += ", " + LOSSES + " = '" + stats.getLosses() + "'";
-        sqlUpdate += ", " + REROLLS + " = '" + stats.getLosses() + "'";
-        sqlUpdate += ", " + SCORES + " = '" + stats.getLosses() + "'";
-        sqlUpdate += ", " + DRAWS + " = '" + stats.getLosses() + "'";
+        sqlUpdate += ", " + REROLLS + " = '" + stats.getReRolls() + "'";
+        sqlUpdate += ", " + SCORES + " = '" + stats.getScore() + "'";
+        sqlUpdate += ", " + DRAWS + " = '" + stats.getDraws() + "'";
         sqlUpdate += " where " + USER_ID + " = " + stats.getID();
         db.execSQL(sqlUpdate); // updates Stats attributes
         db.close();

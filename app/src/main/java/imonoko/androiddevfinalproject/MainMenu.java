@@ -1,11 +1,8 @@
 package imonoko.androiddevfinalproject;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,10 +16,10 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
-        player.start();
+     //  MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
+     //   player.start();
         TextView top = new TextView(this);
-        //top = (TextView) findViewById(R.id.editText);
+       // top = (TextView) findViewById(R.id.editText);
         setContentView(R.layout.activity_main_menu);
         Configuration config = getResources().getConfiguration();
         modifyLayout(config);
