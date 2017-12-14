@@ -1,6 +1,7 @@
 package imonoko.androiddevfinalproject;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ public class ModifyAccount extends AppCompatActivity {
     private EditText new_userNameBox;
     private EditText new_emailBox;
     private EditText new_pwBox;
+    private EditText old_pwBox;
     private LoginActivity LA = new LoginActivity();
     private int ID;
     private Account accountToMod;
@@ -28,7 +30,14 @@ public class ModifyAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dbManager = new DatabaseManager(this);
         ID= LA.getloginID();
+
+        String S_ID = ""+ID;
+
         accountToMod = dbManager.searchForAccountbyID(ID);
+        maView.setTextViewEmail(accountToMod.getEmail());
+        maView.setTextViewName(accountToMod.getUserName());
+        maView.setTextViewID(S_ID);
+
         setContentView(maView);
         name="";
         email="";
@@ -46,10 +55,12 @@ public class ModifyAccount extends AppCompatActivity {
         new_userNameBox = maView.getName();
         new_emailBox = maView.getMail();
         new_pwBox = maView.getPW();
-
+        old_pwBox = maView.getOldPW();
         name = new_userNameBox.getText().toString();
         email = new_emailBox.getText().toString();
         pw = new_pwBox.getText().toString();
+        String old_pw = old_pwBox.getText().toString();
+
         if(name.equals(""))
             name = accountToMod.getUserName();
 
@@ -60,7 +71,7 @@ public class ModifyAccount extends AppCompatActivity {
             pw = accountToMod.getPassword();
         // validate the entered data
         Account acc = new Account(ID, name, email, pw); // creates an account
-        if(checkInput(acc)==true)//ca.checkInput(acc)==true)
+        if(checkInput(acc)==true && isPasswordValid(old_pw))//ca.checkInput(acc)==true)
         {
             dbManager.modifyAccount(acc); // inserts the account into the database
             Toast.makeText(this, "The account has been successfully updated", Toast.LENGTH_SHORT).show();
@@ -207,5 +218,17 @@ public class ModifyAccount extends AppCompatActivity {
         else {
             return 0;
         }
+    }
+
+    private boolean isPasswordValid(String password) {
+        if(dbManager.searchForPassWord(password)) {
+            //Toast.makeText(this, "Its True", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }else{
+            Toast.makeText(this, R.string.error_invalid_password, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
     }
 }
