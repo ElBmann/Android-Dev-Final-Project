@@ -10,9 +10,7 @@
         android:icon="@android:drawable/ic_menu_add"/>
     <item android:id="@+id/action_howToPlay"
         android:title="@string/How"/>
-    <item android:id="@+id/action_ClearDataBase"
-        android:title="DESTROY EVERYTHING"/>
-    <item android:id="@+id/action_modifyAccount"
+        <item android:id="@+id/action_modifyAccount"
         android:title="@string/modifyAccount"/>
     <item android:id="@+id/action_logout"
         android:title="@string/Logout"/>

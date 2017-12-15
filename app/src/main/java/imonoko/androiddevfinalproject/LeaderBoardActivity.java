@@ -34,28 +34,17 @@ public class LeaderBoardActivity extends AppCompatActivity {
             ScrollView scrollView = new ScrollView(this);
             GridLayout grid = new GridLayout(this);
             grid.setRowCount(stats.size()+1);
-            grid.setColumnCount(6);
+            grid.setColumnCount(4);
             // create an array of stats
-            TextView[][] accountStats = new TextView[stats.size()][6];
-            TextView[] accountLabel = new TextView[6];
+            TextView[][] accountStats = new TextView[stats.size()][4];
 
             // retrieve width of screen
             Point size = new Point();
             getWindowManager().getDefaultDisplay().getSize(size);
             int width = size.x;
-            /*accountLabel[0].setText("name");
-            accountLabel[1].setText("score");
-            accountLabel[2].setText("wins");
-            accountLabel[3].setText("losses");
-            accountLabel[4].setText("re-rolls");
-            accountLabel[5].setText("draws");
-            for (int i = 0; i < 6; i++)
-            {
-                LR.addView(accountLabel[i], (int) (width * .15),
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-            }*/
             int i = 0;
-            for ( Statistics stat : stats ) {
+            for ( Statistics stat : stats
+                    ) {
 
                 //initialize textview for each element
                 for(int j=0;j<6;j++)
@@ -63,20 +52,25 @@ public class LeaderBoardActivity extends AppCompatActivity {
                     accountStats[i][j] = new TextView( this );
                     accountStats[i][j].setTextSize(20.0f);
                 }
-
-                //create label for each stat attribute for every column
-                accountStats[i][0].setText(""+Acclist.get(i).getUserName());
-                //stat.getID() is a placeholder until we get actual ids
-                accountStats[i][1].setText("" + stat.getScore());
-                accountStats[i][2].setText("" + stat.getWins());
-                accountStats[i][3].setText("" + stat.getLosses());
-                accountStats[i][4].setText("" + stat.getReRolls());
-                accountStats[i][5].setText("" + stat.getDraws());
-
-                // add the elements to grid
+                if(i==-1)
+                {
+                    accountStats[0][0].setText("name");
+                    accountStats[0][1].setText("score");
+                    accountStats[0][2].setText("wins");
+                    accountStats[0][3].setText("losses");
+                }
+                else {
+                    //create label for each stat attribute for every column
+                    accountStats[i][0].setText(" " + Acclist.get(i).getUserName());
+                    //stat.getID() is a placeholder until we get actual ids
+                    accountStats[i][1].setText(" " + stat.getScore());
+                    accountStats[i][2].setText(" " + stat.getWins());
+                    accountStats[i][3].setText(" " + stat.getLosses());
+                    // add the elements to grid
+                }
                 for(int j=0;j<6;j++) {
                     grid.addView(accountStats[i][j], (int) (width * .15),
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                            ViewGroup.LayoutParams.MATCH_PARENT);
                 }
                 i++;
             }
