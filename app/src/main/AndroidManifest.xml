@@ -31,10 +31,6 @@
         <activity android:name=".StatisticsActivity" />
         <activity android:name=".LeaderBoardActivity" />
         <activity android:name=".GameActivity" />
-        <activity
-            android:name=".waitRoom"
-            android:label="@string/title_activity_wait_room"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

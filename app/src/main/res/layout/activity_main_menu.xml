@@ -43,18 +43,20 @@
         android:layout_alignParentRight="true"
         />
 
-    <EditText
+    <TextView
         android:id="@+id/Player1Initials"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Initials"
-        android:textColorHint="@android:color/white"
+        android:text=""
         android:textColor="@android:color/holo_red_light"
         android:textColorHighlight="@android:color/holo_red_light"
         android:textColorLink="@android:color/holo_red_light"
-        android:inputType="textPersonName"
+        android:textSize="20dp"
+        android:includeFontPadding="false"
+        android:layout_alignBottom="@+id/Player2Initials"
         android:layout_alignLeft="@+id/Player1Label"
         android:layout_below="@id/Player1Label"
+        android:layout_marginTop="10dp"
         />
 
     <EditText

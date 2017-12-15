@@ -28,22 +28,22 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     private String p2; // status box for player 2
     private Statistics stat;
     private int [] scores;
-    private MediaPlayer winsound;
-    private MediaPlayer losesound;
+    private MediaPlayer winsound,losesound;
+
     private int wins;
     private int losses;
     private int draws;
     private int totalScore;
     private int rerolls;
-    private waitRoom wr;
+  //  private waitRoom wr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ceelo_main);
         LA = new LoginActivity();
-        wr = new waitRoom();
-        //winsound= MediaPlayer.create(this,R.raw.yay);
-        //losesound=MediaPlayer.create(this,R.raw.boo);
+      //  wr = new waitRoom();
+        winsound= MediaPlayer.create(this,R.raw.yay);
+        losesound= MediaPlayer.create(this,R.raw.boo);
         clm = new CeeLoModel();
         gDetect = new GestureDetectorCompat(this,this);
         diceResults = (TextView) findViewById(R.id.results);
@@ -54,8 +54,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         p2Status = (TextView) findViewById(R.id.Player_2);
         gameStatus = (TextView) findViewById(R.id.Status);
         roundCounter = (TextView) findViewById(R.id.Round_count);
-        p1Acc=wr.getPlayer1Account();
-        p2Acc= wr.getPlayer2Account();
+       // p1Acc=wr.getPlayer1Account();
+     //   p2Acc= wr.getPlayer2Account();
         scores = clm.getScores();
         wins=0;
         losses=0;
@@ -80,13 +80,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         if(clm.winMatchChecker()==1)
         {
             wins++;
-            //winsound.start();
+            winsound.start();
             alert.setMessage( "Congratulations YOU won. \nDo you want to Play again against player2 ?" );
         }
         else
         {
             losses++;
-            //losesound.start();
+            losesound.start();
             alert.setMessage( "You lost. \nDo you want to Play again against player 2?" );
         }
         PlayDialog playAgain = new PlayDialog( );
@@ -151,6 +151,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         if (clm.winMatchChecker() > 0) // game is over
         {
+
+
             gameStatus.setText("The Game is over");
             // add stats to database
             showGameEndDialog();

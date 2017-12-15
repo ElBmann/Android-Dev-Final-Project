@@ -16,7 +16,7 @@ public class Rules extends AppCompatActivity {
         TextView rules = new TextView(this);
         ScrollView SV = new ScrollView(this);
         LinearLayout LR = new LinearLayout(this);
-        rules.setText("1. On startup all user will get chance/turn to roll 1 dice. Highest dice roll goes first." +
+        rules.setText("1. On startup all user will get chance/turn to roll one dice. Highest dice roll goes first." +
                 " If it is a draw this must continue until it is established who goes first." +
                 "\n\n2. A winner will be determined by the first person who wins 2 rounds. " +
                 "\n\n3. The first player who goes will roll first until he/she reaches point." +

@@ -2,6 +2,7 @@ package imonoko.androiddevfinalproject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,20 +10,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity {
     private LoginActivity LA = new LoginActivity();
-    private TextView p1Name;
+    private TextView playerInitials;
+    DatabaseManager db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //  MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
-     //   player.start();
-        TextView top = new TextView(this);
-       // top = (TextView) findViewById(R.id.editText);
-        setContentView(R.layout.activity_main_menu);
-        Configuration config = getResources().getConfiguration();
+        db = new DatabaseManager(this);
+        String displayUser = db.getUser(LoginActivity.getloginID());
+        MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
+        player.start();
+
+
+
+        Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
+
+        setContentView(R.layout.activity_main_menu);//..............................................Make sure to add the setText stuff after setContentView or it will CRASH!
+
+
+
+        Configuration config = getResources().getConfiguration();//.................................Make sure to add the setText stuff after config or it will not display!
         modifyLayout(config);
+        playerInitials=(TextView) findViewById(R.id.Player1Initials);
+        playerInitials.setText(displayUser);
     }
 
     @Override
@@ -45,7 +58,7 @@ public class MainMenu extends AppCompatActivity {
     }
     public void startGame(View v)
     {
-        Intent startGame_intent = new Intent(this, waitRoom.class);
+        Intent startGame_intent = new Intent(this, GameActivity.class);
         this.startActivity(startGame_intent);
     }
     @Override
@@ -71,8 +84,10 @@ public class MainMenu extends AppCompatActivity {
                 break;
             case R.id.action_logout:
                 // another startActivity, this is for item with id "menu_item2"
+                this.finish();
                 Intent logout = new Intent(this, LoginActivity.class);
                 this.startActivity(logout);
+
                 break;
             default:
                 return super.onOptionsItemSelected(item);

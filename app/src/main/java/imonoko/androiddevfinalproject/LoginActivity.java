@@ -27,7 +27,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     private static int loginID = 0;//used to keep track the user account info.
-                                    // for pulling database info
+                                    //for pulling database info
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -119,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     }//ends onCreate
-    public int getloginID()
+    public static int getloginID()
     {
         return loginID;
     }
@@ -243,7 +242,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //Issue with Login comparing to database
         if(dbManger.searchForEmail(email)) {
             loginID=dbManger.getIDfromEmail(email);
-            Toast.makeText(this, "Login with id "+getloginID(), Toast.LENGTH_SHORT).show();
+
 
             return true;
         }else{

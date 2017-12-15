@@ -311,4 +311,24 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.close( );
         return accountList;
     }
+
+    public String getUser(int userID ){ // returns all accounts in database
+        LoginActivity lA = new LoginActivity();
+        String sqlQuery = "select User_Name from " + TABLE_ACCOUNTS;
+        sqlQuery +=" where " + USER_ID + " = " + userID;
+        SQLiteDatabase db = this.getReadableDatabase( );
+        Cursor cursor = db.rawQuery( sqlQuery, null );
+        String data = "";
+        if (cursor.moveToFirst()){
+            do{
+                 data = cursor.getString(cursor.getColumnIndex("User_Name"));
+                // do what ever you want here
+            }while(cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        return data;
+    }
 }
