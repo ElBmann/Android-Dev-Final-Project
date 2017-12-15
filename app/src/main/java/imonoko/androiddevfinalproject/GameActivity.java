@@ -166,7 +166,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         // reroll if necessary, here
        // if ( clm.needToReroll() == true)
-            //rollAgain(); // curently doesn't work as it should
+            //rollAgain2();
 
         //else
        // {
@@ -269,7 +269,6 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             public void run() {
                 boolean endReroll = false;
                 while (!isInterrupted() && endReroll == false) {
-
                     if (clm.needToReroll() == false)
                         endReroll = true;
 
