@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /*
 * There is alot of code here and I want all opinions on whether or not we should migrate some
 * of it to a separate class
@@ -79,41 +82,35 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
     public void showNextTurnDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-        alert.setTitle( clm.displayResult() + "\n\n Player " + clm.getCurrentPlayer() + " won the round." );
-        ContinueGame nextRound = new ContinueGame( );
-        alert.setPositiveButton( "Now", nextRound );
+        alert.setTitle(" Player " + clm.getCurrentPlayer() +" got " + clm.displayRolls() + ".\nNow, Player " + clm.getOtherPlayer() + " will roll.\n");
+        ContinueRound cR = new ContinueRound( );
+        alert.setPositiveButton( "Continue", cR );
+        alert.show( );
     }
 
-    private class continueRound implements DialogInterface.OnClickListener {
+    private class ContinueRound implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int id) {
             if (id == -1) // YES
             {
-                if (clm.getCurrentPlayer() == 1)
-                     p1Status.setText("Player " + clm.getCurrentPlayer() +" got " + clm.displayRolls());
-
-                else if (clm.getCurrentPlayer() == 2)
-                    p1Status.setText("Player " + clm.getCurrentPlayer() +" got " + clm.displayRolls());
-
-                clm.resetForNextRound();
+                changePlayer(); // switch player
             }
         }
     }
 
     public void showNextRoundDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-        alert.setTitle( clm.displayResult() + "\n\n Player " + clm.getCurrentPlayer() + " won the round." );
+        alert.setTitle( clm.displayResult() + "\n Player " + clm.getCurrentPlayer() + " won the round.\n" );
         ContinueGame nextRound = new ContinueGame( );
-        alert.setPositiveButton( "Next Round", nextRound );
+        alert.setPositiveButton( "Begin Next Round", nextRound );
+        alert.show( );
     }
 
     private class ContinueGame implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int id) {
             if (id == -1) // YES
             {
-                p1Status.setText("Player 1 \n\n Score: " + Integer.toString(scores[0]));
-                p2Status.setText("Player 2 \n\n Score: " + Integer.toString(scores[1]));
-                diceResults.setText(clm.getOtherPlayer() + " will go first next round.");
                 clm.resetForNextRound();
+                changePlayer();
                 updateRoundDisplay();
             }
         }
@@ -126,13 +123,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         {
             wins++;
             winsound.start();
-            alert.setMessage( "Congratulations YOU won. \nDo you want to Play again against player2 ?" );
+            alert.setMessage( "\n Player " + clm.getCurrentPlayer() + " won the round.\n" + "Congratulations YOU won. \nDo you want to Play again against player2 ?" );
         }
         else
         {
             losses++;
             losesound.start();
-            alert.setMessage( "You lost. \nDo you want to Play again against player 2?" );
+            alert.setMessage( "\n Player " + clm.getCurrentPlayer() + " won the round.\n" + "You lost. \nDo you want to Play again against player 2?" );
         }
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
@@ -144,7 +141,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             if( id == -1 ) // YES
             {
                 clm.newGame();
-                progressGame();
+                updateRoundDisplay();
+                gameStatus.setText("The Game is over");
+                p1Status.setText("player 1\n\n Score: " + Integer.toString(scores[0]) + "\n");
+                p2Status.setText("player 2\n\n Score: " + Integer.toString(scores[1]) + "\n");
+                gameStatus.setText("It's Player " + clm.getCurrentPlayer() + " turn!");
+                //progressGame();
+
             }
             else if( id == -2 ) // NO
             {
@@ -154,23 +157,21 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         }
     }
 
-
     public boolean progressGame()
     {
-        this.updateRoundDisplay(); // current round
+        //this.updateRoundDisplay(); // current round
         clm.roll();
         scoreChanges();
         diceResults.setText( clm.displayResult() );
 
         // reroll if necessary, here
-        //if ( clm.needToReroll() == true)
-         //   rollAgain();
+       // if ( clm.needToReroll() == true)
+            //rollAgain2();
 
         //else
-        //{
+       // {
             gameCheck(); // check for round win or match win
-            changePlayer(); // switch player
-      //  }
+       // }
 
         return true;
     }
@@ -209,8 +210,15 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     {
         if (clm.getRecentWinner() > 0) // someone won the round
         {
-            diceResults.setText(clm.displayResult() + "\n\n Player " + clm.getCurrentPlayer() + " won the round.");
+            p1Status.setText("Player 1 \n\n Score: " + Integer.toString(scores[0]));
+            p2Status.setText("Player 2 \n\n Score: " + Integer.toString(scores[1]));
+            diceResults.setText(clm.displayResult() + "\nPlayer " + clm.getCurrentPlayer() + " won the round.\n" + clm.getOtherPlayer() + " will go first next round.");
             showNextRoundDialog( );
+        }
+
+        else //  no round win on first turn, go to other player
+        {
+            showNextTurnDialog( );
         }
 
         if (clm.winMatchChecker() > 0) // game is over
@@ -227,8 +235,34 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         gameStatus.setText("It's Player " + clm.getCurrentPlayer() + " turn!");
     }
 
-    public void rollAgain() {
+    public void rollAgain2()
+    {
+        while (clm.needToReroll())
+        {
+            Toast.makeText(this, "Player " + clm.getCurrentPlayer() + ", needed to reroll", Toast.LENGTH_SHORT).show();
 
+            new Timer().schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            clm.roll();
+                            scoreChanges();
+                            diceResults.setText( clm.displayResult() );
+
+                            if (clm.needToReroll() == false) // if got a valid roll
+                                cancel();
+                            //removeDialog();
+                        }
+                    },
+                    2000 // 2000 ms or 2 seconds
+            );
+        }
+    }
+
+
+
+
+    public void rollAgain() {
 
         Thread reroll = new Thread() {
             @Override

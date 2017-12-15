@@ -341,7 +341,7 @@ public class CeeLoModel
     // clears variables for next round
     public void resetForNextRound()
     {
-        turn = getOtherPlayer();//..................................................................let the loser of the previous round go first
+        //turn = getOtherPlayer();//..................................................................let the loser of the previous round go first
         roll = new int[3];//........................................................................reset the roll
         point = new int[2];//.......................................................................reset point
         recentWinner = 0;
