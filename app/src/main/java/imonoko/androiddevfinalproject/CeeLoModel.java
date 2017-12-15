@@ -3,6 +3,8 @@ package imonoko.androiddevfinalproject;
 
 import java.util.Random;
 
+import static java.lang.Math.min;
+
 
 public class CeeLoModel
 {
@@ -110,8 +112,44 @@ public class CeeLoModel
 
     public boolean needToReroll()
     {
-        if (oneOfAKind() == false && twoOfAKind() == false && threeOfAKind() == false)
+        if (oneOfAKind()== true && twoOfAKind() == false && threeOfAKind() == false)
+        {
+            boolean hasOne = false;
+            boolean hasTwo = false;
+            boolean hasThree = false;
+            boolean hasFour = false;
+            boolean hasFive = false;
+            boolean hasSix = false;
+
+            for (int o = 0; o < roll.length; o++ ) // checks which of the following is present
+            {
+                if (roll[o] == 1)
+                    hasOne = true;
+
+                if (roll[o] == 2)
+                    hasTwo = true;
+
+                if (roll[o] == 3)
+                    hasThree = true;
+
+                if (roll[o] == 4)
+                    hasFour = true;
+
+                if (roll[o] == 5)
+                    hasFive = true;
+
+                if (roll[o] == 6)
+                    hasSix = true;
+            }
+
+            if (hasOne && hasTwo && hasThree)
+                return false;
+
+            if (hasFour && hasFive && hasSix)
+                return false;
+
             return true;
+        }
 
         return false;
     }
@@ -401,5 +439,18 @@ public class CeeLoModel
         for (int gs = 0; gs < gameScore.length; gs++)
             gameScore[gs] = 0;
         resetForNextRound();
+    }
+
+    public String displayRolls()
+    {
+        // get the row of the 2D array for the current player
+        String diceValues = "";
+
+        for (int r = 0; r < roll.length; r++)
+        {
+            diceValues +=  roll[r] + " ";
+        }
+
+        return diceValues;
     }
 }
