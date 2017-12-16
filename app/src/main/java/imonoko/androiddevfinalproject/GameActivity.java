@@ -32,7 +32,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     private String p2; // initials for player 2
     //private Statistics stat;
     private int [] scores;
-    private MediaPlayer winsound,diceRoll;
+    private MediaPlayer winsound,diceRoll, dieRoll;
 
     private int wins;
     private int losses;
@@ -48,6 +48,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
       //  wr = new waitRoom();
         winsound= MediaPlayer.create(this,R.raw.yay);
         diceRoll= MediaPlayer.create(this,R.raw.diceroll);
+        dieRoll= MediaPlayer.create(this,R.raw.dieroll);
         clm = new CeeLoModel();
         gDetect = new GestureDetectorCompat(this,this);
         //diceResults = (TextView) findViewById(R.id.results);
@@ -353,11 +354,14 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         clm.roll();
         scoreChanges();
         clm.displayResult();
+        diceRoll.start();
+
 
         // reroll if necessary, here
-        if( clm.needToReroll() )
+        if( clm.needToReroll() ) {
             rollAgain(); // tell the player to roll again
-
+            diceRoll.start();
+        }
         else // will progress the game
             gameCheck(); // check for round win or match win
 
@@ -459,16 +463,17 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2,  float velocityX, float velocityY)
     {
+        //initial roll
         if (begin > 0) // game has officically started
         {
             progressGame();
-            diceRoll.start();
+            dieRoll.start();
             //updateRoundDisplay();
         }
 
         else if (begin == 0)
         {
-            diceRoll.start();
+            dieRoll.start();
             rollFirst(); // might set begin to 1 or 2
         }
 
