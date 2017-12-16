@@ -240,19 +240,34 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         if (winner == clm.getCurrentPlayer()) // if the current player won
         {
-            if (clm.winMethod() == 1)
+            if (clm.winMethod() == 1) {
+
                 outcome += identifyCurrentPlayer() + " got 4-5-6. How lucky!";
+                winsound.start();
 
-            else if (clm.winMethod() == 3)
+            }
+
+            else if (clm.winMethod() == 3) {
+
                 outcome += identifyCurrentPlayer() + " got three-of-a-kind. Instant Win!";
+                winsound.start();
 
-            else if (clm.winMethod() == 2 && clm.foundUniqueSix())
+            }
+
+            else if (clm.winMethod() == 2 && clm.foundUniqueSix()) {
+
                 outcome += identifyCurrentPlayer() + " got two-of-a-kind with a six.";
+                winsound.start();
 
-            else if (clm.winMethod() == 2 && clm.foundUniqueSix() == false)
+            }
+
+            else if (clm.winMethod() == 2 && clm.foundUniqueSix() == false) {
                 outcome += identifyCurrentPlayer() + " had a higher unique roll.";
+                winsound.start();
+            }
 
             outcome += "\n" + identifyCurrentPlayer() + " won the round.\n";
+            winsound.start();
         }
 
         else // if the current player got an instant loss
@@ -289,15 +304,22 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         alert.setTitle( "The match has ended" );
         if(clm.winMatchChecker()==1)
         {
+
             wins++;
+            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the Match.\n" + "Congratulations! \nDo you want to play again?" );
             winsound.start();
-            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the round.\n" + "Congratulations, you won, " + p1 + "\nDo you want to play against " + p2 + " again?" );
         }
         else
         {
             losses++;
-            //losesound.start();
-            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the round.\n" + "Sorry. You lost, " + p1 + ".\nDo you want to play against " + p2 + " again?" );
+            losesound.start();
+            if(identifyCurrentPlayer().contains(p1)) {//............................................Fix so it wont say p2 won and lost the game.
+                alert.setMessage("\n" + identifyCurrentPlayer() + " won the Match.\n" + "Sorry. You lost, " + p2 + ".\nDo you want to play again?");
+            }else if(identifyCurrentPlayer().contains(p2)){//............................................Fix so it wont say p1 won and lost the game.
+                alert.setMessage("\n" + identifyCurrentPlayer() + " won the Match.\n" + "Sorry. You lost, " + p1 + ".\nDo you want to play again?");
+
+            }
+            winsound.start();
         }
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
