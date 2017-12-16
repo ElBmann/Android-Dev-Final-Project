@@ -30,9 +30,9 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     private int p2First;
     private String p1; // initials for player 1
     private String p2; // initials for player 2
-    //private Statistics stat;
+    private Statistics stat;
     private int [] scores;
-    private MediaPlayer winsound,losesound,diceRoll;
+    private MediaPlayer winsound,losesound, dicesound;
 
     private int wins;
     private int losses;
@@ -48,7 +48,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
       //  wr = new waitRoom();
         winsound= MediaPlayer.create(this,R.raw.yay);
         losesound= MediaPlayer.create(this,R.raw.boo);
-        diceRoll= MediaPlayer.create(this,R.raw.diceroll);
+        dicesound= MediaPlayer.create(this, R.raw.rolldice);
         clm = new CeeLoModel();
         gDetect = new GestureDetectorCompat(this,this);
         //diceResults = (TextView) findViewById(R.id.results);
@@ -67,7 +67,6 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         draws=0;
         totalScore=0;
         rerolls = 0;
-        losesound.start();
         Intent intent = getIntent();
         p1 = intent.getStringExtra("P1Name");
         p2 = intent.getStringExtra("P2Name");
@@ -132,7 +131,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         else if ( p2First > p1First && p1First != 0) // both players went and player 2 got a higher roll than player 1
         {
             displayString = p2 + " won the initial roll with " + p2First + ".\n" + p2 + " goes first.\n" + p2 + ", swipe to roll the dice and begin the match!";
-            begin = 2;
+            begin = 2;;
             gameStatus.setText("The Game has begun! It's " + p2 + "'s turn!");
         }
 
@@ -314,13 +313,14 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         else
         {
             losses++;
+            losesound.start();
             if(identifyCurrentPlayer().contains(p1)) {//............................................Fix so it wont say p2 won and lost the game.
                 alert.setMessage("\n" + identifyCurrentPlayer() + " won the Match.\n" + "Sorry. You lost, " + p2 + ".\nDo you want to play again?");
             }else if(identifyCurrentPlayer().contains(p2)){//............................................Fix so it wont say p1 won and lost the game.
                 alert.setMessage("\n" + identifyCurrentPlayer() + " won the Match.\n" + "Sorry. You lost, " + p1 + ".\nDo you want to play again?");
 
             }
-            losesound.start();
+            winsound.start();
         }
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
@@ -354,12 +354,15 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     {
         //this.updateRoundDisplay(); // current round
         clm.roll();
+        dicesound.start();
         scoreChanges();
         clm.displayResult();
 
         // reroll if necessary, here
-        if( clm.needToReroll() )
-            rollAgain(); // tell the player to roll again
+        if( clm.needToReroll() ) {
+            rollAgain(); // tell the player 6to roll again
+            dicesound.start();
+        }
 
         else // will progress the game
             gameCheck(); // check for round win or match win
@@ -438,7 +441,6 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     {
         DatabaseManager db = new DatabaseManager(this);
         Statistics oldStat = db.searchForStat(LA.getloginID());
-        totalScore = (wins*10)-(losses*3);
         db.updateScores(new Statistics(
                 oldStat.getID(),
                 oldStat.getWins()+wins,
