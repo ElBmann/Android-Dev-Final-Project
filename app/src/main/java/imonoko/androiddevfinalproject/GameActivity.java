@@ -21,13 +21,13 @@ import android.widget.Toast;
 public class GameActivity extends Activity implements GestureDetector.OnGestureListener{
     private DatabaseManager db;
     LoginActivity LA;
-    private volatile Thread again;
+    private int begin = 0;
     private CeeLoModel clm;
     private GestureDetectorCompat gDetect;
     private TextView diceResults, p1Status,p2Status,gameStatus,roundCounter;
     public static ImageView dicePos1,dicePos2,dicePos3;
-    private Account p1Acc;
-    private Account p2Acc;
+    private int p1First;
+    private int p2First;
     private String p1; // initials for player 1
     private String p2; // initials for player 2
     private Statistics stat;
@@ -69,9 +69,77 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         Intent intent = getIntent();
         p1 = intent.getStringExtra("P1Name");
         p2 = intent.getStringExtra("P2Name");
+        p1First = 0;
+        p2First = 0;
         p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n");
         p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n");
         updateRoundDisplay();
+        checkIfBegin(); // will never begin at the start, both players need to roll to see who gets the honor of starting the game
+        gameStatus.setText("Determining who goes first...");
+    }
+    public void rollFirst() //both players need to roll to see who gets the honor of starting the game
+    {
+        int first = clm.rollForFirst();
+
+        if (clm.getCurrentPlayer() == 1)
+            p1First = first;
+
+        else if (clm.getCurrentPlayer() == 2)
+            p2First = first;
+
+
+        checkIfBegin();
+
+        if (begin == 1) // player 1 gets to start
+        {
+            clm.setActivePlayer(1);
+        }
+
+        else if (begin == 2) // player 2 gets to start
+        {
+            clm.setActivePlayer(2);
+        }
+
+        else
+            clm.setActivePlayer(clm.getOtherPlayer()); // switch players to roll the die
+    }
+    public void checkIfBegin()
+    {
+        String displayString = "";
+
+        if (p1First == 0 & p2First == 0) // neither player went
+            displayString = "Roll the die to see who begins the game.\n" + p1 + ", Swipe to roll the die";
+
+        else if (p2First == 0 && p1First != 0) // player 1 went, but player did not
+            displayString = p1 +  " got " + p1First + ".\n" + p2 + ", swipe to roll the die";
+
+        else if (p1First > 0 && p2First > 0 && p1First == p2First) // If both players went, but neither won the first roll
+        {
+            displayString = "Both of you rolled " + p1First + ". No winner.\n" + p1 + " , Roll Again!";
+            p1First = 0; // reset player 1's roll
+            p2First = 0; // reset player 1's roll
+        }
+
+        else if ( p1First > p2First && p2First != 0) // both players went and player 1 got a higher roll than player 2
+        {
+            displayString = p1 + " won the initial roll with " + p1First + ".\n" + p1 + " goes first.\n" + p1 + ", swipe to roll the dice and begin the match!";
+            begin = 1;
+            gameStatus.setText("The Game has begun! It's " + p1 + "'s turn!");
+        }
+
+        else if ( p2First > p1First && p1First != 0) // both players went and player 2 got a higher roll than player 1
+        {
+            displayString = p2 + " won the initial roll with " + p2First + ".\n" + p2 + " goes first.\n" + p2 + ", swipe to roll the dice and begin the match!";
+            begin = 2;;
+            gameStatus.setText("The Game has begun! It's " + p2 + "'s turn!");
+        }
+
+        else // error
+        {
+            displayString = "Swipe to roll the dice";
+        }
+
+        showPreGameDialog(displayString);
     }
 
     public String identifyCurrentPlayer()
@@ -96,6 +164,28 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             return p1;
     }
 
+    public void showPreGameDialog(String displayString )
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder( this );
+        alert.setMessage( displayString);
+
+        BeginningGame game = new BeginningGame( );
+        alert.setPositiveButton( "Continue", game );
+        AlertDialog dialog = alert.create();
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        alert.show( );
+    }
+
+
+    private class BeginningGame implements DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int id) {
+            if (id == -1) // YES
+            {
+                // does nothing for now
+            }
+        }
+    }
+
     public void showInformRerollDialog( )
     {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
@@ -106,8 +196,6 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         alert.setPositiveButton( "I Will Roll Again", again );
         AlertDialog dialog = alert.create();
         dialog.getWindow().setGravity(Gravity.BOTTOM);
-
-
         alert.show( );
     }
 
@@ -148,7 +236,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
 
         int winner = clm.getRecentWinner();
-        String outcome = "Round " + clm.getRound() + " is over. \n";
+        String outcome = "Round " + (clm.getRound()-1) + " is over. \n";
 
         if (winner == clm.getCurrentPlayer()) // if the current player won
         {
@@ -208,8 +296,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         else
         {
             losses++;
-            losesound.start();
-            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the round.\n" + "Sorry. You lost, " + p1 + ".\nDo you want to Pplay against " + p2 + " again?" );
+            //losesound.start();
+            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the round.\n" + "Sorry. You lost, " + p1 + ".\nDo you want to play against " + p2 + " again?" );
         }
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
@@ -222,10 +310,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             {
                 clm.newGame();
                 updateRoundDisplay();
-                gameStatus.setText("The Game is over");
+                gameStatus.setText("A new match has begun");
                 p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n");
                 p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n");
-                gameStatus.setText("It's " + identifyCurrentPlayer() + "'s turn!");
+                p1First = 0;
+                p2First = 0;
+                begin = 0; // either player can start the game in a new round
+                checkIfBegin(); // display message
                 //progressGame();
             }
             else if( id == -2 ) // NO
@@ -278,7 +369,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
             p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult());
 
             if (clm.twoOfAKind() == true)
-                p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult() + "\n Your Roll is:: " + clm.showPoint( ));
+                p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult() + "\n Your Roll is: " + clm.showPoint( ));
         }
     }
 
@@ -312,60 +403,12 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         gameStatus.setText("It's " + identifyCurrentPlayer() + "'s turn!");
     }
 
-    public void stopReroll()
-    {
-        again = null;
-    }
-
     public void rollAgain() {
         Toast.makeText(this, identifyCurrentPlayer() + " needs to reroll", Toast.LENGTH_SHORT).show();
         showInformRerollDialog();
         //diceResults.setText( clm.displayResult() );
     }
 
-
-
-
-/*
-    public void rollAgain() {
-
-        Thread reroll = new Thread() {
-            @Override
-            public void run() {
-                while (!isInterrupted()) {
-
-                    if (clm.needToReroll() == false)
-                        stopReroll();
-
-                    else
-                    {
-                        try {
-                            Thread.sleep(3500); // 3500 milliseconds or 3.5 seconds between auto rerolls
-                            runOnUiThread(new Runnable() {
-
-                                @Override
-                                public void run() {
-
-                                    clm.roll();
-                                    scoreChanges();
-                                    diceResults.setText( clm.displayResult() );
-                                    //Toast.makeText(GameActivity, "Player "+ clm.getCurrentPlayer() + ", ROLLED AGAIN!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } catch (InterruptedException intX) {
-                            intX.printStackTrace();
-                        }
-                    }
-                }
-            }
-        };
-
-            reroll.start();
-            Toast.makeText(this, "Player " + clm.getCurrentPlayer() + ", needed to reroll", Toast.LENGTH_SHORT).show();
-            gameCheck();
-        //progressGame();
-    }
-*/
     public void UpdateScore()//score updating is strictly client-side
     //meaning that data is only recorded for the playing using the current device
     //(this is if we add multiplayer functionality )
@@ -395,7 +438,17 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2,  float velocityX, float velocityY)
     {
-        progressGame();
+        if (begin > 0) // game has officically started
+        {
+            progressGame();
+            //updateRoundDisplay();
+        }
+
+        else if (begin == 0)
+        {
+            rollFirst(); // might set begin to 1 or 2
+        }
+
         return true;
     }
 

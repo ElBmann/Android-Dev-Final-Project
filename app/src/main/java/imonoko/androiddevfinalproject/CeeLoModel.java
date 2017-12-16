@@ -440,10 +440,12 @@ public class CeeLoModel
         else
             return 0;
      }
+
     public void newGame()//sets up for a new game
     {
         //resets all variables
-        round=1;
+        round = 1;
+        turn = 1;
         for (int gs = 0; gs < gameScore.length; gs++)
             gameScore[gs] = 0;
         resetForNextRound();
@@ -456,7 +458,7 @@ public class CeeLoModel
 
         for (int r = 0; r < roll.length; r++)
         {
-            diceValues +=  roll[r] + " ";
+            diceValues +=  roll[r] + "  ";
         }
 
         return diceValues;
@@ -478,6 +480,83 @@ public class CeeLoModel
         return 0;
     }
 
+    public int rollForFirst()
+    {
+        int firstGo = singleRoll();
+
+        if (getCurrentPlayer() == 1)
+        {
+            if (firstGo == 1)
+            {
+                GameActivity.dicePos1.setImageResource(R.drawable.dice1);
+            }
+
+            else if (firstGo == 2)
+            {
+                GameActivity.dicePos1.setImageResource(R.drawable.dice2);
+            }
+
+            else if (firstGo == 3)
+            {
+                GameActivity.dicePos1.setImageResource(R.drawable.dice3);
+            }
+
+            else if (firstGo == 4)
+            {
+                GameActivity.dicePos1.setImageResource(R.drawable.dice4);
+            }
+
+            else if (firstGo == 5)
+            {
+                GameActivity.dicePos1.setImageResource(R.drawable.dice5);
+            }
+
+            else if (firstGo == 6)
+            {
+                GameActivity.dicePos1.setImageResource(R.drawable.dice6);
+            }
+
+            GameActivity.dicePos1.setVisibility(View.VISIBLE);
+
+        }
+
+        else
+        {
+            if (firstGo == 1)
+            {
+                GameActivity.dicePos3.setImageResource(R.drawable.dice1);
+            }
+
+            else if (firstGo == 2)
+            {
+                GameActivity.dicePos3.setImageResource(R.drawable.dice2);
+            }
+
+            else if (firstGo == 3)
+            {
+                GameActivity.dicePos3.setImageResource(R.drawable.dice3);
+            }
+
+            else if (firstGo == 4)
+            {
+                GameActivity.dicePos3.setImageResource(R.drawable.dice4);
+            }
+
+            else if (firstGo == 5)
+            {
+                GameActivity.dicePos3.setImageResource(R.drawable.dice5);
+            }
+
+            else if (firstGo == 6)
+            {
+                GameActivity.dicePos3.setImageResource(R.drawable.dice6);
+            }
+
+            GameActivity.dicePos3.setVisibility(View.VISIBLE);
+        }
+        return firstGo;
+    }
+
 
     public boolean foundUniqueSix() // detects if there is a two of a kind with one six
     {
@@ -490,5 +569,11 @@ public class CeeLoModel
             }
         }
         return hasSix == 1; // true if has exactly one six, else false
+    }
+
+    public void setActivePlayer(int player)
+    {
+        if (player == 1 || player == 2)
+            turn = player;
     }
 }
