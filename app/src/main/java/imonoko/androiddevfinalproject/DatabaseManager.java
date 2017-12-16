@@ -50,13 +50,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void clearDataBase() {
-        SQLiteDatabase db = this.getWritableDatabase( );
-        String sqlDeleteAll = "drop database '"+DATABASE_NAME+"'";
-        db.execSQL( sqlDeleteAll ); //Deletes EVERYTHING
-        db.close( );
-    }
-
     public void addAccount( Account account ) {
         addStatistics();
         SQLiteDatabase db = this.getWritableDatabase( );
@@ -312,8 +305,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return accountList;
     }
 
-    public String getUser(int userID ){ // returns all accounts in database
-        LoginActivity lA = new LoginActivity();
+    public String getUser(int userID ){
         String sqlQuery = "select User_Name from " + TABLE_ACCOUNTS;
         sqlQuery +=" where " + USER_ID + " = " + userID;
         SQLiteDatabase db = this.getReadableDatabase( );

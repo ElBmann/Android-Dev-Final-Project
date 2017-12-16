@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity {
-    private LoginActivity LA = new LoginActivity();
     private TextView playerInitials;
     DatabaseManager db;
     @Override
@@ -75,11 +74,6 @@ public class MainMenu extends AppCompatActivity {
             case R.id.action_modifyAccount:
                 Intent modify_intent = new Intent(this, ModifyAccount.class);
                 this.startActivity(modify_intent);
-                // another startActivity, this is for item with id "menu_item2"
-                break;
-            case R.id.action_ClearDataBase:
-                DatabaseManager db = new DatabaseManager(this);
-                db.clearDataBase();
                 // another startActivity, this is for item with id "menu_item2"
                 break;
             case R.id.action_logout:

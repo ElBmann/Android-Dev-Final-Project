@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name= ".LeaderBoardActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name">
             <intent-filter>
@@ -28,8 +28,8 @@
         <activity android:name=".MainMenu" />
         <activity android:name=".Rules" />
         <activity android:name=".ModifyAccount" />
-        <activity android:name=".StatisticsActivity" />
-        <activity android:name=".LeaderBoardActivity" />
+        <activity android:name=".StatisticsActivity"/>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".GameActivity" />
     </application>
 
