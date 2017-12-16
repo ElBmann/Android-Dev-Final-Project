@@ -2,6 +2,7 @@ package imonoko.androiddevfinalproject;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
@@ -30,8 +31,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public static ImageView dicePos1,dicePos2,dicePos3;
     private Account p1Acc;
     private Account p2Acc;
-    private String p1; // status box for player 1
-    private String p2; // status box for player 2
+    private String p1; // initials for player 1
+    private String p2; // initials for player 2
     private Statistics stat;
     private int [] scores;
     private MediaPlayer winsound,losesound;
@@ -67,17 +68,42 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         losses=0;
         draws=0;
         totalScore=0;
-        rerolls=0;
-        p1Status.setText("player 1\n\n Score: " + Integer.toString(scores[0]) + "\n");
-        p2Status.setText("player 2\n\n Score: " + Integer.toString(scores[1]) + "\n");
+        rerolls = 0;
+        Intent intent = getIntent();
+        p1 = intent.getStringExtra("P1Name");
+        p2 = intent.getStringExtra("P2Name");
+        p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n");
+        p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n");
         updateRoundDisplay();
+    }
+
+    public String identifyCurrentPlayer()
+    {
+        int player = clm.getCurrentPlayer();
+
+        if (player == 1)
+            return p1;
+
+        else
+            return p2;
+    }
+
+    public String identifyOtherPlayer()
+    {
+        int player = clm.getCurrentPlayer();
+
+        if (player == 1)
+            return p2;
+
+        else
+            return p1;
     }
 
     public void showInformRerollDialog( )
     {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-        alert.setMessage("Player " + clm.getCurrentPlayer() + " got "+ clm.displayRolls() +
-        "\nPlease roll again, player " + clm.getCurrentPlayer());
+        alert.setMessage( identifyCurrentPlayer() + " got "+ clm.displayRolls() +
+        "\nPlease roll again, " + identifyCurrentPlayer());
 
         PleaseReroll again = new PleaseReroll( );
         alert.setPositiveButton( "I Will Roll Again", again );
@@ -94,17 +120,14 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         }
     }
 
-    //TODO: ADD Player Objects from the database so we can decipher who one
-
     public void showNextTurnDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
 
-
         if (clm.twoOfAKind() && clm.foundUniqueSix() == false)
-            alert.setMessage("Player " + clm.getCurrentPlayer() +" got " + clm.displayRolls() + ",\nThe roll to beat is "+ clm.showPoint( ) + ". Now, Player " + clm.getOtherPlayer() + " will roll.\n");
+            alert.setMessage(identifyCurrentPlayer() +" got " + clm.displayRolls() + ",\nThe roll to beat is "+ clm.showPoint( ) + ".\nNow, " + identifyOtherPlayer() + " will roll.\n");
 
         else
-            alert.setMessage("Player " + clm.getCurrentPlayer() +" got " + clm.displayRolls() + ",\nNow, Player " + clm.getOtherPlayer() + " will roll.\n");
+            alert.setMessage(identifyCurrentPlayer() +" got " + clm.displayRolls() + ",\nNow, " + identifyOtherPlayer() + " will roll.\n");
 
         ContinueRound cR = new ContinueRound( );
         alert.setPositiveButton( "Continue", cR );
@@ -122,22 +145,36 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
     public void showNextRoundDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-        String outcome ="Player " + clm.getCurrentPlayer() + " got "+ clm.displayRolls() + "\nPlayer " + clm.getCurrentPlayer() + " won the round.\n";
 
-        if (clm.winMethod() == 1 && clm.getRecentWinner() == clm.getOtherPlayer() )
-            outcome += "Player " + clm.getCurrentPlayer() + " got 1-2-3. How unlucky!";
+        int winner = clm.getRecentWinner();
+        String outcome = "Round " + clm.getRound() + " is over. \n";
 
-        else if (clm.winMethod() == 1 && clm.getRecentWinner() == clm.getCurrentPlayer())
-            outcome += "Player " + clm.getCurrentPlayer() + " got 4-5-6. How lucky!";
+        if (winner == clm.getCurrentPlayer()) // if the current player won
+        {
+            if (clm.winMethod() == 1)
+                outcome += identifyCurrentPlayer() + " got 4-5-6. How lucky!";
 
-        else if (clm.winMethod() == 3)
-            outcome +=  outcome += "Player " + clm.getCurrentPlayer() + " got three-of-a-kind. Instant Win!";
+            else if (clm.winMethod() == 3)
+                outcome += identifyCurrentPlayer() + " got three-of-a-kind. Instant Win!";
 
-        else if (clm.winMethod() == 2 && clm.foundUniqueSix())
-            outcome += "Player " + clm.getCurrentPlayer() + " got two-of-a-kind with a six.";
+            else if (clm.winMethod() == 2 && clm.foundUniqueSix())
+                outcome += identifyCurrentPlayer() + " got two-of-a-kind with a six.";
 
-        else if (clm.winMethod() == 2 && clm.foundUniqueSix() == false)
-            outcome += "Player " + clm.getCurrentPlayer() + " had a higher unique roll.";
+            else if (clm.winMethod() == 2 && clm.foundUniqueSix() == false)
+                outcome += identifyCurrentPlayer() + " had a higher unique roll.";
+
+            outcome += "\n" + identifyCurrentPlayer() + " won the round.\n";
+        }
+
+        else // if the current player got an instant loss
+        {
+            if (clm.winMethod() == 1)
+                outcome += identifyCurrentPlayer() + " got 1-2-3. How unlucky!" + "\n" + identifyOtherPlayer() + " won the round.\n";;
+        }
+
+        int[] currentStandings = clm.getScores();
+
+        outcome += "\nThe score is " + currentStandings[0] + " to " + currentStandings[1];
 
         alert.setMessage(outcome);
 
@@ -165,13 +202,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         {
             wins++;
             winsound.start();
-            alert.setMessage( "\nPlayer " + clm.getCurrentPlayer() + " won the round.\n" + "Congratulations YOU won. \nDo you want to Play again against player2 ?" );
+            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the round.\n" + "Congratulations, you won, " + p1 + "\nDo you want to play against " + p2 + " again?" );
         }
         else
         {
             losses++;
             losesound.start();
-            alert.setMessage( "\n Player " + clm.getCurrentPlayer() + " won the round.\n" + "You lost. \nDo you want to Play again against player 2?" );
+            alert.setMessage( "\n" + identifyCurrentPlayer() + " won the round.\n" + "Sorry. You lost, " + p1 + ".\nDo you want to Pplay against " + p2 + " again?" );
         }
         PlayDialog playAgain = new PlayDialog( );
         alert.setPositiveButton( "YES", playAgain );
@@ -185,9 +222,9 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
                 clm.newGame();
                 updateRoundDisplay();
                 gameStatus.setText("The Game is over");
-                p1Status.setText("player 1\n\n Score: " + Integer.toString(scores[0]) + "\n");
-                p2Status.setText("player 2\n\n Score: " + Integer.toString(scores[1]) + "\n");
-                gameStatus.setText("It's Player " + clm.getCurrentPlayer() + " turn!");
+                p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n");
+                p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n");
+                gameStatus.setText("It's " + identifyCurrentPlayer() + "'s turn!");
                 //progressGame();
             }
             else if( id == -2 ) // NO
@@ -229,18 +266,18 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         if( player == 1)
         {
-            p1Status.setText("Player 1 \n\n Score: " + Integer.toString(scores[0]) + "\n" + clm.displayResult());
+            p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n" + clm.displayResult());
 
             if (clm.twoOfAKind() == true)
-                p1Status.setText("Player 1 \n\n Score: " + Integer.toString(scores[0]) + "\n" + clm.displayResult() + "\n Your Roll is: " + clm.showPoint( ));
+                p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n" + clm.displayResult() + "\n Your Roll is: " + clm.showPoint( ));
         }
 
         else if (player == 2)
         {
-            p2Status.setText("Player 2 \n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult());
+            p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult());
 
             if (clm.twoOfAKind() == true)
-                p2Status.setText("Player 2 \n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult() + "\n Your Roll is:: " + clm.showPoint( ));
+                p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult() + "\n Your Roll is:: " + clm.showPoint( ));
         }
     }
 
@@ -255,9 +292,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         else if (clm.getRecentWinner() > 0) // someone won the round
         {
-            p1Status.setText("Player 1 \n\n Score: " + Integer.toString(scores[0]));
-            p2Status.setText("Player 2 \n\n Score: " + Integer.toString(scores[1]));
-            //diceResults.setText(clm.displayResult() + "\nPlayer " + clm.getCurrentPlayer() + " won the round.\n" + clm.getOtherPlayer() + " will go first next round.");
+            p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]));
+            p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]));
             showNextRoundDialog( ); // next round
         }
 
@@ -272,7 +308,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public void changePlayer()
     {
         clm.play(); // switch player
-        gameStatus.setText("It's Player " + clm.getCurrentPlayer() + " turn!");
+        gameStatus.setText("It's " + identifyCurrentPlayer() + "'s turn!");
     }
 
     public void stopReroll()
@@ -281,7 +317,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     }
 
     public void rollAgain() {
-        Toast.makeText(this, "Player " + clm.getCurrentPlayer() + ", needs to reroll", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, identifyCurrentPlayer() + " needs to reroll", Toast.LENGTH_SHORT).show();
         showInformRerollDialog();
         //diceResults.setText( clm.displayResult() );
     }

@@ -76,7 +76,7 @@ public class CreateAccount extends AppCompatActivity {
                 Toast.makeText(this, "Please enter a password.", Toast.LENGTH_SHORT).show();
             } else if (checkName == -1) // the username was too long
             {
-                Toast.makeText(this, "Invalid Username. User name cannot contain more than 10 characters ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid Username. User name cannot contain more than 3 characters ", Toast.LENGTH_SHORT).show();
             } else if (checkName == -2) // the username was too short
             {
                 Toast.makeText(this, "Invalid Username. User name cannot contain fewer than 2 characters ", Toast.LENGTH_SHORT).show();
@@ -118,7 +118,7 @@ public class CreateAccount extends AppCompatActivity {
     // The username must contain at least two characters and at most ten characters. The username must contain at least one letter.
     public int checkUserName(String user)
     {
-        if (user.length() > 10) // too long
+        if (user.length() > 3) // too long
             return -1;
 
         else if (user.length() < 2) // too short

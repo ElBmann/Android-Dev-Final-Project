@@ -76,7 +76,7 @@ public class CreateAccountView extends LinearLayout
 
         // TextView for username
         userNamePrompt = new TextView(context);
-        userNamePrompt.setText("Username: ");
+        userNamePrompt.setText("Initials: ");
         userNamePrompt.setTextSize(16);
         userNamePrompt.setBackgroundColor(Color.parseColor("#CCCCCC"));
         userNamePrompt.setTextColor(Color.parseColor("#444444"));
@@ -87,7 +87,7 @@ public class CreateAccountView extends LinearLayout
         userNameEntry = new EditText(context);
         userNameEntry.setMaxLines(1);
         userNameEntry.setText("");
-        userNameEntry.setHint("enter your username");
+        userNameEntry.setHint("enter your initials (2 to 3 letters");
         userNameEntry.setGravity(Gravity.CENTER);
         userNameEntry.setBackgroundColor(Color.parseColor("#CCCCCC"));// light gray
         userNameEntry.setHintTextColor(Color.parseColor("#444444")); // dark gray

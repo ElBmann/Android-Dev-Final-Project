@@ -9,12 +9,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity {
-    private TextView playerInitials;
+    private TextView player1Initials;
+    private EditText player2Initials;
     DatabaseManager db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,18 +26,18 @@ public class MainMenu extends AppCompatActivity {
         MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
         player.start();
 
-
-
         Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_main_menu);//..............................................Make sure to add the setText stuff after setContentView or it will CRASH!
 
-
-
         Configuration config = getResources().getConfiguration();//.................................Make sure to add the setText stuff after config or it will not display!
         modifyLayout(config);
-        playerInitials=(TextView) findViewById(R.id.Player1Initials);
-        playerInitials.setText(displayUser);
+        player1Initials = (TextView) findViewById(R.id.Player1Initials);
+        player1Initials.setText(displayUser);
+
+        player2Initials = (EditText) findViewById(R.id.Player2Initials);
+        player2Initials.setText("");
+        Toast.makeText(this, "Player 2 must enter initials.\nInitials may contain 2 or 3 letters.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -57,8 +60,22 @@ public class MainMenu extends AppCompatActivity {
     }
     public void startGame(View v)
     {
-        Intent startGame_intent = new Intent(this, GameActivity.class);
-        this.startActivity(startGame_intent);
+        if (checkPlayer2Initials() == -2)
+            Toast.makeText(this, "Player 2 must enter initials.\nInitials may contain 2 or 3 letters.", Toast.LENGTH_SHORT).show();
+
+        else if (checkPlayer2Initials() == -1)
+            Toast.makeText(this, "Initials may contain 2 to 3 letters.\nPlease change your initials, Player 2", Toast.LENGTH_SHORT).show();
+
+        else if (checkSameInitials())
+            Toast.makeText(this, "Both players may not have exactly the same initials.\nInitials may contain 2 or 3 letters.", Toast.LENGTH_SHORT).show();
+
+        else
+        {
+            Intent startGame_intent = new Intent(this, GameActivity.class);
+            startGame_intent.putExtra("P1Name", player1Initials.getText().toString() );
+            startGame_intent.putExtra("P2Name", player2Initials.getText().toString() );
+            this.startActivity(startGame_intent);
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -116,5 +133,32 @@ public class MainMenu extends AppCompatActivity {
         }
 
     }
+
+    public int checkPlayer2Initials ()
+    {
+        String p2Initials = player2Initials.getText().toString();
+
+        if (p2Initials.equals(""))
+            return -2;
+
+        else if (p2Initials.length() < 2 ||  p2Initials.length() > 3)
+            return -1;
+
+        else
+            return 0;
+    }
+
+    public boolean checkSameInitials()
+    {
+        String p1Initials = player1Initials.getText().toString();
+        String p2Initials = player2Initials.getText().toString();
+
+        if (p1Initials.equals(p2Initials))
+            return true;
+
+        else
+            return false;
+    }
+
 
 }
