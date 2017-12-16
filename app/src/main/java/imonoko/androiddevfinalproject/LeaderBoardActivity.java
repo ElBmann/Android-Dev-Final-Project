@@ -45,12 +45,23 @@ public class LeaderBoardActivity extends AppCompatActivity {
         grid.setRowCount(stats.size()+1);
         grid.setColumnCount(4);
 
-        //Title of the
+        //Title of the activity
         TextView title = new TextView(this);
         title.setText("LEADERBOARD");
         title.setTextColor(Color.WHITE);
         title.setTextSize(50f);
         LR.addView(title,width,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        //back button to go back to the menu
+        //placed just under the title
+        ButtonHandler bh = new ButtonHandler();
+        Button back = new Button(this);
+        back.setOnClickListener(bh);
+        back.setText("BACK");
+        back.setDrawingCacheBackgroundColor(Color.RED);
+        back.setTextSize(20f);
+        back.setLayoutDirection(LR.getBottom());
+        LR.addView(back, (int)(width*.35),(int) (height*.1) );
 
         TextView[] label = new TextView[4];
         //create label for each stat attribute for every column
@@ -98,14 +109,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
             noStats.setTextSize(COMPLEX_UNIT_PX,70f);
             LR.addView(noStats);
         }
-
-        ButtonHandler bh = new ButtonHandler();
-        Button back = new Button(this);
-        back.setOnClickListener(bh);
-        back.setText("BACK");
-        back.setTextSize(20f);
-        back.setLayoutDirection(LR.getBottom());
-        LR.addView(back, (int)(width*.35),(int) (height*.1) );
 
         setContentView(LR);
     }

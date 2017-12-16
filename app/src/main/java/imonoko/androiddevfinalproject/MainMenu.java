@@ -25,7 +25,7 @@ public class MainMenu extends AppCompatActivity {
         String displayUser = db.getUser(LoginActivity.getloginID());
         MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
         player.start();
-
+        player.setLooping(true);
         Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_main_menu);//..............................................Make sure to add the setText stuff after setContentView or it will CRASH!

@@ -52,7 +52,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
         else
         {
-            ViewPlayerStat.setText("\nUser ID: "+CurrentStat.getID()
+            ViewPlayerStat.setText("User ID: "+CurrentStat.getID()
                     +"\n\nWins: "+CurrentStat.getWins()+"\nLosses: "+CurrentStat.getLosses()+"\nScore: "+CurrentStat.getScore());
         }
         ButtonHandler bh = new ButtonHandler();
