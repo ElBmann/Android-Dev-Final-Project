@@ -1,5 +1,6 @@
 package imonoko.androiddevfinalproject;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,9 +35,11 @@ public class Rules extends AppCompatActivity {
                 "\nA point is when two of the three die are the same, and the odd dice is point. Ex{2|2|5} 5 is your point." +
                 "\n\n4.Once bank has point, the other player now has to roll higher to beat the banker's point. " +
                 "If the player who goes second rolls the same point as the first player, then the first player wins the round." +
-                "\n\nAutomatic Wins:\nTrips: All three die land on the same number.\nCeelo: Rolling a 4, 5, and 6." +
+                "\n\nAutomatic Wins:\nTrips: All three die land on the same number.\nCeelo: Rolling a 4, 5, and 6.\nRolling a Point of 6" +
                 "\n\nAutomatic Loss:\nRolling 1,2,3 is also an automatic loss.\n\n\n\n\n\n\n"
         );
+        rules.setTextColor(Color.WHITE);
+        LR.setBackgroundColor(Color.BLACK);
 
         ButtonHandler bh = new ButtonHandler();
         Button back = new Button(this);
