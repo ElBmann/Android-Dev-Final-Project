@@ -43,37 +43,34 @@ public class LeaderBoardActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getSize(size);
             int width = size.x;
             int i = 0;
+
             for ( Statistics stat : stats
                     ) {
 
                 //initialize textview for each element
-                for(int j=0;j<6;j++)
+                for(int j=0;j<4;j++)
                 {
                     accountStats[i][j] = new TextView( this );
                     accountStats[i][j].setTextSize(20.0f);
                 }
-                if(i==-1)
-                {
-                    accountStats[0][0].setText("name");
-                    accountStats[0][1].setText("score");
-                    accountStats[0][2].setText("wins");
-                    accountStats[0][3].setText("losses");
-                }
-                else {
                     //create label for each stat attribute for every column
                     accountStats[i][0].setText(" " + Acclist.get(i).getUserName());
                     //stat.getID() is a placeholder until we get actual ids
                     accountStats[i][1].setText(" " + stat.getScore());
                     accountStats[i][2].setText(" " + stat.getWins());
                     accountStats[i][3].setText(" " + stat.getLosses());
+
                     // add the elements to grid
-                }
-                for(int j=0;j<6;j++) {
+                for(int j=0;j<4;j++) {
                     grid.addView(accountStats[i][j], (int) (width * .15),
                             ViewGroup.LayoutParams.MATCH_PARENT);
                 }
                 i++;
             }
+            accountStats[0][0].setText("name");
+            accountStats[0][1].setText("score");
+            accountStats[0][2].setText("wins");
+            accountStats[0][3].setText("losses");
             scrollView.addView( grid );
             LR.addView(scrollView);
         }
