@@ -18,10 +18,6 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-/*
-* There is alot of code here and I want all opinions on whether or not we should migrate some
-* of it to a separate class
-* */
 public class GameActivity extends Activity implements GestureDetector.OnGestureListener{
     private DatabaseManager db;
     LoginActivity LA;
@@ -43,13 +39,11 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     private int draws;
     private int totalScore;
     private int rerolls;
-  //  private waitRoom wr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ceelo_main);
         LA = new LoginActivity();
-      //  wr = new waitRoom();
         winsound= MediaPlayer.create(this,R.raw.yay);
         diceRoll= MediaPlayer.create(this,R.raw.diceroll);
         dieRoll= MediaPlayer.create(this,R.raw.dieroll);
@@ -63,8 +57,6 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         p2Status = (TextView) findViewById(R.id.Player_2);
         gameStatus = (TextView) findViewById(R.id.Status);
         roundCounter = (TextView) findViewById(R.id.Round_count);
-       // p1Acc=wr.getPlayer1Account();
-     //   p2Acc= wr.getPlayer2Account();
         scores = clm.getScores();
         wins=0;
         losses=0;
