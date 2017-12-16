@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class MainMenu extends AppCompatActivity {
     private TextView player1Initials;
     private EditText player2Initials;
+    private MediaPlayer player;
     DatabaseManager db;
 
     @Override
@@ -23,7 +24,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = new DatabaseManager(this);
         String displayUser = db.getUser(LoginActivity.getloginID());
-        MediaPlayer player= MediaPlayer.create(this,R.raw.menumusic);
+        player= MediaPlayer.create(this,R.raw.menumusic);
         player.start();
         player.setLooping(true);
         Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
@@ -77,6 +78,13 @@ public class MainMenu extends AppCompatActivity {
             this.startActivity(startGame_intent);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        player.start();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -119,7 +127,6 @@ public class MainMenu extends AppCompatActivity {
         }else{
             Log.w("MA","Undetermined Position");
         }
-
     }
 
     private void modifyLayout(Configuration newConfig) {
