@@ -424,7 +424,16 @@ public class CeeLoModel
 
         for (int r = 0; r < roll.length; r++)
         {
-            values += roll[r] + "     ";
+            values += roll[r];
+            if (r == 2)
+            {
+                values += "      ";
+            }
+            else
+            {
+                values += "   -  ";
+            }
+
         }
 
         return values;
@@ -458,7 +467,15 @@ public class CeeLoModel
 
         for (int r = 0; r < roll.length; r++)
         {
-            diceValues +=  roll[r] + "  ";
+            diceValues +=  roll[r];
+            if (r == 2)
+            {
+                diceValues += "  ";
+            }
+            else
+            {
+                diceValues += " - ";
+            }
         }
 
         return diceValues;

@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Enter Initials"
-        android:textColorHint="@android:color/white"
+        android:textColorHint="@android:color/holo_green_light"
         android:textColor="@android:color/holo_red_light"
         android:textColorHighlight="@android:color/holo_red_light"
         android:textColorLink="@android:color/holo_red_light"

@@ -3,16 +3,20 @@ package imonoko.androiddevfinalproject;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /*
 * There is alot of code here and I want all opinions on whether or not we should migrate some
@@ -72,8 +76,10 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         p2 = intent.getStringExtra("P2Name");
         p1First = 0;
         p2First = 0;
-        p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n");
-        p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n");
+        String one = p1 + "<br/><br/><font color='#FFA500'>Score: " + Integer.toString(scores[0]) + "</font><br/>";
+        String two = p2 + "<br/><br/><font color='#FFA500'>Score: " + Integer.toString(scores[1]) + "</font><br/>";
+        p1Status.setText(Html.fromHtml(one),TextView.BufferType.SPANNABLE);
+        p2Status.setText(Html.fromHtml(two),TextView.BufferType.SPANNABLE);
         updateRoundDisplay();
         checkIfBegin(); // will never begin at the start, both players need to roll to see who gets the honor of starting the game
         gameStatus.setText("Determining who goes first...");
@@ -109,7 +115,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         String displayString = "";
 
         if (p1First == 0 & p2First == 0) // neither player went
-            displayString = "Roll the die to see who begins the game.\n" + p1 + ", Swipe to roll the die";
+            displayString = "Roll the die to see who begins the game.\n" + p1 + ", swipe to roll the die";
 
         else if (p2First == 0 && p1First != 0) // player 1 went, but player did not
             displayString = p1 +  " got " + p1First + ".\n" + p2 + ", swipe to roll the die";
@@ -332,8 +338,10 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
                 clm.newGame();
                 updateRoundDisplay();
                 gameStatus.setText("A new match has begun");
-                p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n");
-                p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n");
+                String one = p1 + "<br/><br/><font color='#FFA500'>Score: " + Integer.toString(scores[0]) + "</font><br/>";
+                String two = p2 + "<br/><br/><font color='#FFA500'>Score: " + Integer.toString(scores[1]) + "</font><br/>";
+                p1Status.setText(Html.fromHtml(one),TextView.BufferType.SPANNABLE);
+                p2Status.setText(Html.fromHtml(two),TextView.BufferType.SPANNABLE);
                 p1First = 0;
                 p2First = 0;
                 begin = 0; // either player can start the game in a new round
@@ -370,7 +378,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
     public void updateRoundDisplay() // replaces update view
     {
-        roundCounter.setText("It's Round " + clm.getRound() + ". ");
+        roundCounter.setText("It's Round " + clm.getRound() + ".");
     }
 
     public void scoreChanges()
@@ -382,18 +390,26 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         if( player == 1)
         {
-            p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n" + clm.displayResult());
+            String text = p1 + "<br/><br/><font color='#FFA500'> Score: " + Integer.toString(scores[0]) + "</font><br/><font color='Green'>" + clm.displayResult() + "</font>";
 
-            if (clm.twoOfAKind() == true)
-                p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]) + "\n" + clm.displayResult() + "\n Your Roll is: " + clm.showPoint( ));
+            p1Status.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+            if (clm.twoOfAKind() == true) {
+                text = p1 + "<br/><br/><font color='#FFA500'> Score: " + Integer.toString(scores[0]) +"</font>"+ "<br/><font color='Green'>" + clm.displayResult() + "</font><br/><font color='#FFFFFF'>Your Roll is: " + clm.showPoint() + "</font>";
+
+                p1Status.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+            }
         }
 
         else if (player == 2)
         {
-            p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult());
+            String text = p2 + "<br/><br/><font color='#FFA500'> Score: " + Integer.toString(scores[1]) + "</font>" + "<br/><font color='Green'>" + clm.displayResult()+ "</font>";
+            p2Status.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 
             if (clm.twoOfAKind() == true)
-                p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]) + "\n" + clm.displayResult() + "\n Your Roll is: " + clm.showPoint( ));
+                text = p2 + "<br/><br/><font color='#FFA500'> Score: " + Integer.toString(scores[1]) + "</font><br/><font color='Green'>" + clm.displayResult() + "</font><br/><font color='#FFFFFF'>Your Roll is: " + clm.showPoint() + "</font>";
+
+                p2Status.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
         }
     }
 
@@ -408,8 +424,10 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         else if (clm.getRecentWinner() > 0) // someone won the round
         {
-            p1Status.setText(p1 + "\n\n Score: " + Integer.toString(scores[0]));
-            p2Status.setText(p2 + "\n\n Score: " + Integer.toString(scores[1]));
+            String one = p1 + "<br/><br/><font color='#FFA500'> Score: " + Integer.toString(scores[0]) + "</font>";
+            String two = p2 + "<br/><br/><font color='#FFA500'> Score: " + Integer.toString(scores[1]) + "</font>";
+            p1Status.setText(Html.fromHtml(one),TextView.BufferType.SPANNABLE);
+            p2Status.setText(Html.fromHtml(two),TextView.BufferType.SPANNABLE);
             showNextRoundDialog( ); // next round
         }
 
