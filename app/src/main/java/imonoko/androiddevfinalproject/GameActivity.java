@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /*
 * There is alot of code here and I want all opinions on whether or not we should migrate some
@@ -53,7 +50,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         losesound= MediaPlayer.create(this,R.raw.boo);
         clm = new CeeLoModel();
         gDetect = new GestureDetectorCompat(this,this);
-        diceResults = (TextView) findViewById(R.id.results);
+        //diceResults = (TextView) findViewById(R.id.results);
         dicePos1 = (ImageView) findViewById(R.id.dice1);
         dicePos2 = (ImageView) findViewById(R.id.dice2);
         dicePos3 = (ImageView) findViewById(R.id.dice3);
@@ -107,6 +104,10 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         PleaseReroll again = new PleaseReroll( );
         alert.setPositiveButton( "I Will Roll Again", again );
+        AlertDialog dialog = alert.create();
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+
         alert.show( );
     }
 
