@@ -1,6 +1,8 @@
 package imonoko.androiddevfinalproject;
 
 
+import android.view.View;
+
 import java.util.Random;
 
 import static java.lang.Math.min;
@@ -112,7 +114,7 @@ public class CeeLoModel
 
     public boolean needToReroll()
     {
-        if (oneOfAKind()== true && twoOfAKind() == false && threeOfAKind() == false)
+        if (oneOfAKind()== true && twoOfAKind() == false && threeOfAKind() == false) // no "point" and no win
         {
             boolean hasOne = false;
             boolean hasTwo = false;
@@ -143,10 +145,10 @@ public class CeeLoModel
             }
 
             if (hasOne && hasTwo && hasThree)
-                return false;
+                return false; // instant loss, no need to reroll
 
             if (hasFour && hasFive && hasSix)
-                return false;
+                return false; // instant loss, no need to reroll
 
             return true;
         }
@@ -345,6 +347,10 @@ public class CeeLoModel
         roll = new int[3];//........................................................................reset the roll
         point = new int[2];//.......................................................................reset point
         recentWinner = 0;
+        GameActivity.dicePos1.setVisibility(View.INVISIBLE);
+        GameActivity.dicePos2.setVisibility(View.INVISIBLE);
+        GameActivity.dicePos3.setVisibility(View.INVISIBLE);
+
         for (int pl = 0; pl < played.length; pl++)
             played[pl] = false;
     }
@@ -353,6 +359,9 @@ public class CeeLoModel
     {
 
         String values = "";
+        GameActivity.dicePos1.setVisibility(View.VISIBLE);
+        GameActivity.dicePos2.setVisibility(View.VISIBLE);
+        GameActivity.dicePos3.setVisibility(View.VISIBLE);
 
         /*Position one in tableGrid*/
         if(roll[0]==1){
@@ -413,7 +422,6 @@ public class CeeLoModel
             GameActivity.dicePos3.setImageResource(R.drawable.dice6);
         }
 
-
         for (int r = 0; r < roll.length; r++)
         {
             values += roll[r] + "     ";
@@ -452,5 +460,35 @@ public class CeeLoModel
         }
 
         return diceValues;
+    }
+
+    public int winMethod()
+    {
+        int win;
+
+        if (oneOfAKind())
+            return 1;
+
+        else if (twoOfAKind())
+            return 2;
+
+        else if (threeOfAKind())
+            return 3;
+
+        return 0;
+    }
+
+
+    public boolean foundUniqueSix() // detects if there is a two of a kind with one six
+    {
+        int hasSix = 0;
+
+        if (twoOfAKind()) {
+            for (int r = 0; r < roll.length; r++) {
+                if (roll[r] == 6)
+                    hasSix++;
+            }
+        }
+        return hasSix == 1; // true if has exactly one six, else false
     }
 }
