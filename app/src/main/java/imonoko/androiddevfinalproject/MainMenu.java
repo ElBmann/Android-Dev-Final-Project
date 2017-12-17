@@ -19,7 +19,7 @@ public class MainMenu extends AppCompatActivity {
     private TextView player1Initials;
     private EditText player2Initials;
     DatabaseManager db;
-
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,18 @@ public class MainMenu extends AppCompatActivity {
         Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_main_menu);//..............................................Make sure to add the setText stuff after setContentView or it will CRASH!
+
+        player= MediaPlayer.create(this,R.raw.menumusic);
+        player.setLooping(true);
+        player.start();
+        if(player.isLooping())
+        {
+            player.stop();
+        }
+        else
+        {
+            player.start();
+        }
 
         Configuration config = getResources().getConfiguration();//.................................Make sure to add the setText stuff after config or it will not display!
         modifyLayout(config);
@@ -106,7 +118,6 @@ public class MainMenu extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
 
         return true;
     }//End onOptionItemSelected
