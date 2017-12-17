@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -52,7 +53,9 @@ public class ModifyAccountView extends LinearLayout {
     private TableRow passwordRow;
     private TableRow idRow;
 
-    public ModifyAccountView(Context context, OnClickListener listener) {
+    private Button Back;
+
+    public ModifyAccountView(Context context, OnClickListener listener, OnClickListener back) {
         super(context);
         this.setOrientation(LinearLayout.VERTICAL);
         this.setBackgroundColor(Color.BLACK);
@@ -260,8 +263,6 @@ public class ModifyAccountView extends LinearLayout {
         newPasswordEntry.setLayoutParams(editParams);
         passwordRow.addView( newPasswordEntry );
 
-
-
         modifyAccount = new Button(context);
         modifyAccount.setText("Update Account");
         modifyAccount.setGravity(Gravity.CENTER);
@@ -271,6 +272,17 @@ public class ModifyAccountView extends LinearLayout {
         modifyAccount.setMaxLines(1);
         modifyAccount.setLayoutParams(buttonParams);
         addView(modifyAccount);
+
+        //back button
+        Back = new Button(context);
+        Back.setText("BACK");
+        Back.setGravity(Gravity.CENTER);
+        Back.setTextColor(Color.parseColor("#5b5b5b"));
+        Back.setOnClickListener(back);
+        Back.setEnabled(true);
+        Back.setMaxLines(1);
+        Back.setLayoutParams(buttonParams);
+        addView(Back);
     }
 
     public EditText getOldPW() {

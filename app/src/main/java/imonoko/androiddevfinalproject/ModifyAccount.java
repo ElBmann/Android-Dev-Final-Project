@@ -25,7 +25,8 @@ public class ModifyAccount extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ButtonHandler bh = new ButtonHandler();
-        maView = new ModifyAccountView(this, bh);
+        goBack gb = new goBack();
+        maView = new ModifyAccountView(this, bh,gb);
         super.onCreate(savedInstanceState);
         dbManager = new DatabaseManager(this);
         ID= LA.getloginID();
@@ -48,7 +49,10 @@ public class ModifyAccount extends AppCompatActivity {
             modifyAccount();
         }
     }
-
+    private class goBack implements View.OnClickListener {
+        public void onClick(View v) {finish();
+        }
+    }
     public void modifyAccount(){
 
         new_userNameBox = maView.getName();
