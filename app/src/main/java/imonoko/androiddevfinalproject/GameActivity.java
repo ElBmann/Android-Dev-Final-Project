@@ -279,7 +279,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
                 outcome += identifyCurrentPlayer() + " got 1-2-3. How unlucky!";
 
             else if (clm.winMethod() == 20)
-                outcome += identifyCurrentPlayer() + " got the same unique roll, but rolled first.";
+                outcome += identifyOtherPlayer() + " got the same unique roll, but rolled first.";
 
             outcome += "\n" + identifyOtherPlayer() + " won the round.\n" + identifyCurrentPlayer() + " will roll first next round.";
             clm.setActivePlayer(clm.getCurrentPlayer());//..................................................................let the loser of the previous round go first
