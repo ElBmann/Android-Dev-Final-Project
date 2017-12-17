@@ -80,13 +80,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        player.stop();
-        player.start();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_howToPlay:
