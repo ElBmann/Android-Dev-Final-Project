@@ -122,7 +122,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onStop() {
         super.onStop();
-        player.start();
         player.setLooping(true);
     }
 
@@ -236,6 +235,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
+            player.start();
             startActivity(new Intent(LoginActivity.this, MainMenu.class));
             mAuthTask.execute((Void) null);
         }
