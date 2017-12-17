@@ -14,10 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity {
+    private String p1String;
+    private String p2String;
     private TextView player1Initials;
     private EditText player2Initials;
     DatabaseManager db;
     private MediaPlayer player;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +36,10 @@ public class MainMenu extends AppCompatActivity {
         modifyLayout(config);
         player1Initials = (TextView) findViewById(R.id.Player1Initials);
         player1Initials.setText(displayUser);
-
         player2Initials = (EditText) findViewById(R.id.Player2Initials);
         player2Initials.setText("");
+        p1String = player1Initials.getText().toString();
+        p2String = player2Initials.getText().toString();
         Toast.makeText(this, "Player 2 must enter initials.\nInitials may contain 2 or 3 letters.", Toast.LENGTH_SHORT).show();
     }
 
@@ -121,8 +125,12 @@ public class MainMenu extends AppCompatActivity {
         modifyLayout(newConfig);
         if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
             modifyLayout(newConfig);
+            player1Initials .setText(p1String);
+            player2Initials.setText(p2String);
         }else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
             modifyLayout(newConfig);
+            player1Initials .setText(p1String);
+            player2Initials.setText(p2String);
         }else{
             Log.w("MA","Undetermined Position");
         }
@@ -131,11 +139,11 @@ public class MainMenu extends AppCompatActivity {
     private void modifyLayout(Configuration newConfig) {
 
         if(newConfig.orientation== Configuration.ORIENTATION_LANDSCAPE) {
-
             setContentView(R.layout.activity_main_menu_landscape);
 
         } else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
             setContentView(R.layout.activity_main_menu);
+
         }
 
     }
