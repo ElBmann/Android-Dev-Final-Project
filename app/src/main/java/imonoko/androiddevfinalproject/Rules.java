@@ -42,28 +42,28 @@ public class Rules extends AppCompatActivity {
                 "\n\n2. A winner will be determined by the first person who wins 2 rounds. " +
                 "\n\n3. The first player who goes will roll first until he/she reaches point." +
                 "\nA point is when two of the three dice are the same, and the odd die is point. Ex{2|2|5} 5 is your point." +
-                "\n\n4.Once bank has point, the other player now has to roll higher to beat the banker's point. " +
+                "\n\n4. Once bank has point, the other player now has to roll higher to beat the banker's point. " +
                 "If the player who goes second rolls the same point as the first player, then the first player wins the round.\n\n");
         rules.setGravity(Gravity.CENTER_HORIZONTAL);
         rules.setTextSize(COMPLEX_UNIT_PX,50f);
         rules.setTextColor(Color.WHITE);
 
-        rulesWin.setText("Automatic Wins:");
+        rulesWin.setText("Automatic Wins");
         rulesWin.setGravity(Gravity.CENTER_HORIZONTAL);
         rulesWin.setTextSize(COMPLEX_UNIT_PX,70f);
         rulesWin.setTextColor(Color.GREEN);
 
-        rulesWinD.setText("\nTrips: All three die land on the same number.\nCeelo: Rolling a 4, 5, and 6.\nRolling a Point of 6.\n\n");
+        rulesWinD.setText("Trips: All three die land on the same number.\nCeelo: Rolling a 4, 5, and 6.\nRolling a Point of 6.\n\n");
         rulesWinD.setGravity(Gravity.CENTER_HORIZONTAL);
         rulesWinD.setTextSize(COMPLEX_UNIT_PX,50f);
         rulesWinD.setTextColor(Color.WHITE);
 
-        rulesLoss.setText("Automatic Loss:");
+        rulesLoss.setText("Automatic Loss");
         rulesLoss.setGravity(Gravity.CENTER_HORIZONTAL);
         rulesLoss.setTextSize(COMPLEX_UNIT_PX,70f);
         rulesLoss.setTextColor(Color.GREEN);
 
-        rulesLossD.setText("\nRolling 1,2,3 is also an automatic loss.\n\n\n");
+        rulesLossD.setText("Rolling 1,2,3 is also an automatic loss.\n\n\n");
         rulesLossD.setGravity(Gravity.CENTER_HORIZONTAL);
         rulesLossD.setTextSize(COMPLEX_UNIT_PX,50f);
         rulesLossD.setTextColor(Color.WHITE);
