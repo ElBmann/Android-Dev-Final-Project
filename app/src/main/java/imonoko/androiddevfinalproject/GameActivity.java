@@ -34,7 +34,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     //private Statistics stat;
     private int [] scores;
     private MediaPlayer winsound,diceRoll, dieRoll;
-
+    private MediaPlayer player;
     private int wins;
     private int losses;
     private int draws;
@@ -45,6 +45,9 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ceelo_main);
         LA = new LoginActivity();
+        player= MediaPlayer.create(this,R.raw.menumusic);
+
+
         winsound= MediaPlayer.create(this,R.raw.yay);
         diceRoll= MediaPlayer.create(this,R.raw.diceroll);
         dieRoll= MediaPlayer.create(this,R.raw.dieroll);
@@ -103,6 +106,20 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
         else
             clm.setActivePlayer(clm.getOtherPlayer()); // switch players to roll the die
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        player.setLooping(true);
+        player.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.stop();
+    }
+
     public void checkIfBegin()
     {
         String displayString = "";
