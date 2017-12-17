@@ -173,7 +173,8 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
         alert.setMessage( displayString);
-
+        //alert.setCanceledOnTouchOutside(false);
+        alert.setCancelable(false);
         BeginningGame game = new BeginningGame( );
         alert.setPositiveButton( "Begin!", game );
         AlertDialog dialog = alert.create();
@@ -194,6 +195,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public void showInformRerollDialog( )
     {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
+        alert.setCancelable(false);
         alert.setMessage( identifyCurrentPlayer() + " got "+ clm.displayRolls() +
         "\nThat's not an accepted combination.\nPlease roll again, " + identifyCurrentPlayer());
 
@@ -216,7 +218,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
     public void showNextTurnDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-
+        alert.setCancelable(false);
         if (clm.twoOfAKind() && clm.foundUniqueSix() == false)
             alert.setMessage(identifyCurrentPlayer() +" got " + clm.displayRolls() + ",\nThe roll to beat is "+ clm.showPoint( ) + ".\nNow, " + identifyOtherPlayer() + " will roll.\n");
 
@@ -239,7 +241,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
     public void showNextRoundDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-
+        alert.setCancelable(false);
         int winner = clm.getRecentWinner();
         String outcome = "Round " + (clm.getRound()-1) + " is over. \n";
 
@@ -317,6 +319,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public void showGameEndDialog( ) {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
         alert.setTitle( "The match has ended" );
+        alert.setCancelable(false);
         //roundCounter.setText("Round " + (clm.getRound()- 1) + " is over." );
         int winner = clm.getRecentWinner();
         String outcome = "";
