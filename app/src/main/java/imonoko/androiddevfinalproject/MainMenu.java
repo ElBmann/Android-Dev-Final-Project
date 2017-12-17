@@ -19,15 +19,14 @@ public class MainMenu extends AppCompatActivity {
     private TextView player1Initials;
     private EditText player2Initials;
     DatabaseManager db;
-    private MediaPlayer player;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        player= MediaPlayer.create(this,R.raw.menumusic);
+
         db = new DatabaseManager(this);
         String displayUser = db.getUser(LoginActivity.getloginID());
-
         Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_main_menu);//..............................................Make sure to add the setText stuff after setContentView or it will CRASH!
@@ -112,23 +111,17 @@ public class MainMenu extends AppCompatActivity {
         return true;
     }//End onOptionItemSelected
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        player.setLooping(true);
-        player.start();
-    }
-
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         modifyLayout(newConfig);
         if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
             modifyLayout(newConfig);
+
             player1Initials .setText(p1String);
             player2Initials.setText(p2String);
         }else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
             modifyLayout(newConfig);
+
             player1Initials .setText(p1String);
             player2Initials.setText(p2String);
         }else{
@@ -137,7 +130,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void modifyLayout(Configuration newConfig) {
-
         if(newConfig.orientation== Configuration.ORIENTATION_LANDSCAPE) {
             setContentView(R.layout.activity_main_menu_landscape);
 

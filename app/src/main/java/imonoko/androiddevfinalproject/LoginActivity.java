@@ -40,7 +40,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     DatabaseManager dbManger;
-
+    private MediaPlayer player;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         dbManger = new DatabaseManager(this);
 
-
+        player= MediaPlayer.create(this,R.raw.menumusic);
         setContentView(R.layout.activity_login);
      //   Configuration config = getResources().getConfiguration();
      //   modifyLayout(config);
@@ -118,11 +118,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     {
         return loginID;
     }
-
     @Override
     protected void onStop() {
         super.onStop();
-
+        player.setLooping(true);
+        player.start();
     }
 
     public void registerAccount(View view)
