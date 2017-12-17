@@ -24,10 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccount" />
+        <activity android:name=".CreateAccount"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainMenu" />
         <activity android:name=".Rules" />
-        <activity android:name=".ModifyAccount" />
+        <activity android:name=".ModifyAccount"
+            android:screenOrientation="portrait"/>
         <activity android:name=".StatisticsActivity"/>
         <activity android:name=".LeaderBoardActivity" />
         <activity android:name=".GameActivity"
