@@ -4,11 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.PendingIntent;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -38,6 +40,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     DatabaseManager dbManger;
+    private MediaPlayer player;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -63,12 +66,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbManger = new DatabaseManager(this);
+        player= MediaPlayer.create(this,R.raw.menumusic);
+
         setContentView(R.layout.activity_login);
      //   Configuration config = getResources().getConfiguration();
      //   modifyLayout(config);
@@ -87,10 +90,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-
-
-
-
         //SignInButton
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -105,7 +104,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //RegisterButton
         Button mRegisterButton = (Button) findViewById(R.id.register_sign_in_button);
 
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
@@ -115,13 +113,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setText(savedInstanceState.getString("email"));
         }
 
-
-
     }//ends onCreate
     public static int getloginID()
     {
         return loginID;
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.start();
+        player.setLooping(true);
+    }
+
     public void registerAccount(View view)
     {
         Intent goToCreateAccount = new Intent (this, CreateAccount.class);

@@ -16,7 +16,6 @@ import android.widget.Toast;
 public class MainMenu extends AppCompatActivity {
     private TextView player1Initials;
     private EditText player2Initials;
-    private MediaPlayer player;
     DatabaseManager db;
 
     @Override
@@ -24,9 +23,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = new DatabaseManager(this);
         String displayUser = db.getUser(LoginActivity.getloginID());
-        player= MediaPlayer.create(this,R.raw.menumusic);
-        player.start();
-        player.setLooping(true);
+
         Toast.makeText(this, "Welcome "+displayUser+"!", Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_main_menu);//..............................................Make sure to add the setText stuff after setContentView or it will CRASH!

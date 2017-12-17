@@ -30,7 +30,8 @@
         <activity android:name=".ModifyAccount" />
         <activity android:name=".StatisticsActivity"/>
         <activity android:name=".LeaderBoardActivity" />
-        <activity android:name=".GameActivity" />
+        <activity android:name=".GameActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
