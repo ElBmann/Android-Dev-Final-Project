@@ -82,6 +82,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        player.stop();
         player.start();
     }
 
