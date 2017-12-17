@@ -195,7 +195,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     public void showInformRerollDialog( )
     {
         AlertDialog.Builder alert = new AlertDialog.Builder( this );
-        alert.setCancelable(false);
+        //alert.setCancelable(false); // button does nothing special so can dismiss without consequence
         alert.setMessage( identifyCurrentPlayer() + " got "+ clm.displayRolls() +
         "\nThat's not an accepted combination.\nPlease roll again, " + identifyCurrentPlayer());
 
