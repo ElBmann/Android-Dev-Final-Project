@@ -343,7 +343,6 @@ public class CeeLoModel
     // clears variables for next round
     public void resetForNextRound()
     {
-        //turn = getOtherPlayer();//..................................................................let the loser of the previous round go first
         roll = new int[3];//........................................................................reset the roll
         point = new int[2];//.......................................................................reset point
         recentWinner = 0;
@@ -487,6 +486,9 @@ public class CeeLoModel
 
         if (oneOfAKind())
             return 1;
+
+        else if (twoOfAKind() && point[0] == point[1] && foundUniqueSix() == false) // if the two "points" are equal, the player who went first wins
+            return 20;
 
         else if (twoOfAKind())
             return 2;
