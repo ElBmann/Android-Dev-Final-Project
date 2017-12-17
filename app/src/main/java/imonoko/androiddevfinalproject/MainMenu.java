@@ -17,10 +17,11 @@ public class MainMenu extends AppCompatActivity {
     private TextView player1Initials;
     private EditText player2Initials;
     DatabaseManager db;
-
+    private MediaPlayer player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        player= MediaPlayer.create(this,R.raw.menumusic);
         db = new DatabaseManager(this);
         String displayUser = db.getUser(LoginActivity.getloginID());
 
@@ -107,6 +108,13 @@ public class MainMenu extends AppCompatActivity {
         return true;
     }//End onOptionItemSelected
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        player.setLooping(true);
+        player.start();
+    }
 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

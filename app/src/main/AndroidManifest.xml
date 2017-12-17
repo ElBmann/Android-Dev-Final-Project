@@ -25,7 +25,7 @@
         <activity android:name=".CreateAccount"
             android:screenOrientation="portrait"/>
         <activity android:name=".MainMenu"
-            android:configChanges="orientation|screenSize" />
+            android:screenOrientation="portrait" />
         <activity android:name=".Rules" />
         <activity android:name=".ModifyAccount"
             android:screenOrientation="portrait" />
